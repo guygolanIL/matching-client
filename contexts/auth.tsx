@@ -1,35 +1,27 @@
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
-
+import { LoginRequestPayload, RegisterRequestPayload } from '../data/user/api';
+import { useRegisterMutation } from '../data/user/hooks/useRegisterMutation';
 type AuthContextType = {
     loggedIn: boolean,
     signOut: () => void;
-    signIn: (email: string, password: string) => void;
-    signUp: (email: string, password: string) => void;
+    signIn: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
     loggedIn: false,
     signIn: () => { },
     signOut: () => { },
-    signUp: () => { }
 });
 
 export const AuthProvider = (props: PropsWithChildren) => {
     const [loggedIn, setLoggedIn] = useState(false);
 
-    function signIn(email: string, password: string) {
-        setTimeout(() => {
-            console.log('yay')
-            setLoggedIn(true);
-        }, 2000);
+    function signIn() {
+        setLoggedIn(true);
     };
 
     function signOut() {
         setLoggedIn(false);
-    }
-
-    function signUp() {
-
     }
 
     return (
@@ -37,7 +29,6 @@ export const AuthProvider = (props: PropsWithChildren) => {
             loggedIn,
             signIn,
             signOut,
-            signUp
         }}>
             {props.children}
         </AuthContext.Provider>

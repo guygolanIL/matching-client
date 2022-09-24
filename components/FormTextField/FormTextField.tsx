@@ -1,5 +1,5 @@
 import React from "react";
-import { KeyboardTypeOptions, NativeSyntheticEvent, StyleSheet, TextInput, TextInputChangeEventData, TextInputProps } from "react-native";
+import { StyleSheet, TextInput, TextInputProps } from "react-native";
 
 type FormTextFieldProps = {} & TextInputProps;
 export function FormTextField(props: FormTextFieldProps) {
@@ -7,6 +7,7 @@ export function FormTextField(props: FormTextFieldProps) {
         <TextInput
             {...props}
             style={styles.input}
+            selectionColor={'#7aa7c7'}
         />
     );
 }

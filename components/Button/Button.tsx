@@ -3,14 +3,16 @@ import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 type ButtonProps = {
     onPress: () => void;
     label: string;
-    color?: string
+    color?: string;
+    loading?: boolean;
 }
 export function Button(props: ButtonProps) {
     const { label, onPress } = props;
     const styles = createStyles(props);
     return (
         <TouchableOpacity style={styles.button} onPress={onPress}>
-            <Text style={styles.buttonText}>{label}</Text>
+            {!props.loading && <Text style={styles.buttonText}>{label}</Text>}
+            {props.loading && <Text style={styles.buttonText}>Loading...</Text>}
         </TouchableOpacity>
     );
 }
