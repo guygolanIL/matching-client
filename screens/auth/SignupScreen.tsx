@@ -1,20 +1,22 @@
 import React from 'react';
-import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Button } from '../../components/Button/Button';
 import { ClickableText } from '../../components/ClickableText/ClickableText';
 import { FormTextField } from '../../components/FormTextField/FormTextField';
 
 import { Text, View } from '../../components/Themed';
 import { useAuth } from '../../contexts/auth';
-import { useRegisterMutation } from '../../data/user/hooks/useRegisterMutation';
 import { useFormValues } from '../../hooks/useFormValues';
 import { AuthScreenProps } from '../../navigation/auth/AuthNavigator';
 import { AuthFormFields } from './types';
 
 export function SignupScreen({ navigation }: AuthScreenProps<'Signup'>) {
-  const { mutate, isLoading } = useRegisterMutation({
-    onSuccess: () => navigation.navigate('Signin')
-  });
+
+  const { signUp: {
+    isLoading,
+    mutate
+  } } = useAuth();
+
   const { values, change } = useFormValues<AuthFormFields>({
     email: '',
     password: ''
@@ -37,7 +39,15 @@ export function SignupScreen({ navigation }: AuthScreenProps<'Signup'>) {
         onChange={e => change('password', e.nativeEvent.text)}
       />
 
-      <Button loading={isLoading} label='Sign up' onPress={() => mutate({ email: values.email, password: values.password })} />
+      <Button
+        loading={isLoading}
+        label='Sign up'
+        onPress={
+          () => mutate(
+            { email: values.email, password: values.password },
+            () => navigation.navigate('Signin')
+          )
+        } />
       <ClickableText onPress={() => navigation.navigate('Signin')}>Already signed up? Sign in!</ClickableText>
     </View>
   );

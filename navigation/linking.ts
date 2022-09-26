@@ -9,7 +9,7 @@ import * as Linking from 'expo-linking';
 
 import { RootStackParamList } from '../types';
 
-const linking: LinkingOptions<RootStackParamList> = {
+export const linking: LinkingOptions<RootStackParamList> = {
   prefixes: [Linking.createURL('/')],
   config: {
     screens: {
@@ -29,11 +29,10 @@ const linking: LinkingOptions<RootStackParamList> = {
       },
       App: {
         screens: {
-          AppRoot: "app"
+          Feed: "feed"
         }
       }
     },
   },
 };
 
-export default linking;
