@@ -1,22 +1,19 @@
+import { useState } from 'react';
 import { useAsyncStorage } from '../util/async-storage';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-const queryKey = ['initial-token-fetch'];
+export function useUserToken({ defaultValue }: { defaultValue: string | null }) {
+    const { removeItem, setItem } = useAsyncStorage('@user-token');
+    const [userToken, setUserToken] = useState(defaultValue);
 
-export function useUserToken() {
-    const { getItem, removeItem, setItem } = useAsyncStorage('@user-token');
-    const { isLoading, data: userToken, } = useQuery(queryKey, async () => getItem());
-    const queryClient = useQueryClient();
 
     return {
         userToken,
-        isLoading,
-        setUserToken(token: string) {
-            queryClient.setQueryData(queryKey, token);
+        updateUserToken(token: string) {
+            setUserToken(token);
             setItem(token);
         },
         eraseUserToken() {
-            removeItem().then(() => queryClient.setQueriesData(queryKey, null));
+            removeItem().then(() => setUserToken(null));
         }
     }
 }

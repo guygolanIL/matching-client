@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Button } from '../../components/Button/Button';
-import { ClickableText } from '../../components/ClickableText/ClickableText';
-import { FormTextField } from '../../components/FormTextField/FormTextField';
+import { Button } from '../../components/design-system/Button/Button';
+import { ClickableText } from '../../components/design-system/ClickableText/ClickableText';
+import { FormTextField } from '../../components/design-system/FormTextField/FormTextField';
 
 import { Text, View } from '../../components/Themed';
 import { useAuth } from '../../contexts/auth';

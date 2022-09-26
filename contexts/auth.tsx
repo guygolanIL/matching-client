@@ -1,7 +1,11 @@
-import { UseMutateFunction, useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import Toast from 'react-native-root-toast';
+
 import { createContext, PropsWithChildren, useContext } from 'react';
-import { login, LoginRequestPayload, LoginResponse, logout, register, RegisterRequestPayload, RegisterResponse } from '../data/user/api';
+import { login, LoginRequestPayload, logout, register, RegisterRequestPayload } from '../data/user/api';
 import { useUserToken } from '../hooks/useUserToken';
+import { AxiosError } from 'axios';
+import { ApiErrorResponse } from '../data/types';
 
 type AuthContextType = {
     loggedIn: boolean,
@@ -37,17 +41,29 @@ const AuthContext = createContext<AuthContextType>({
     }
 });
 
-export const AuthProvider = (props: PropsWithChildren) => {
-    const { userToken, eraseUserToken, setUserToken, isLoading: isFetchingFromLocalStorage } = useUserToken();
-    const { mutate: loginMutation, isLoading: isLoginLoading } = useMutation(login);
-    const { mutate: registerMutation, isLoading: isRegisterLoading } = useMutation(register);
-    const { mutate: logoutMutation, isLoading: isLogoutLoading } = useMutation(logout);
+export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string | null }>) => {
+    const { eraseUserToken, updateUserToken, userToken } = useUserToken({ defaultValue: props.initialUserToken });
+    const { mutate: loginMutation, isLoading: isLoginLoading } = useMutation(login, {
+        onError(error: AxiosError<ApiErrorResponse>, variables, context) {
+            Toast.show(error.response?.data.issues[0].message || "Failed to login");
+        },
+    });
+    const { mutate: registerMutation, isLoading: isRegisterLoading } = useMutation(register, {
+        onError(error: AxiosError<ApiErrorResponse>, variables, context) {
+            Toast.show(error.response?.data.issues[0].message || 'Failed to register');
+        },
+    });
+    const { mutate: logoutMutation, isLoading: isLogoutLoading } = useMutation(logout, {
+        onError(error: AxiosError<ApiErrorResponse>, variables, context) {
+            Toast.show(error.response?.data.issues[0].message || 'Failed to log out');
+        },
+    });
 
 
     function signIn(payload: LoginRequestPayload, cb: () => void) {
         loginMutation(payload, {
             onSuccess: (data) => {
-                setUserToken(data.result.accessToken);
+                updateUserToken(data.result.accessToken);
                 cb();
             }
         });
@@ -87,7 +103,7 @@ export const AuthProvider = (props: PropsWithChildren) => {
                 mutate: signOut,
             },
         }}>
-            {isFetchingFromLocalStorage ? null : props.children}
+            {props.children}
         </AuthContext.Provider>
     );
 }

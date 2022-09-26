@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClientProvider } from '@tanstack/react-query';
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
@@ -9,7 +10,7 @@ import { AuthProvider } from './contexts/auth';
 import { queryClient } from './data/query-client';
 
 export default function App() {
-  const isLoadingComplete = useCachedResources();
+  const { isLoadingComplete, userToken } = useCachedResources();
   const colorScheme = useColorScheme();
 
   if (!isLoadingComplete) {
@@ -18,10 +19,12 @@ export default function App() {
     return (
       <SafeAreaProvider>
         <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <Navigation colorScheme={colorScheme} />
-          </AuthProvider>
-          <StatusBar />
+          <RootSiblingParent>
+            <AuthProvider initialUserToken={userToken}>
+              <Navigation colorScheme={colorScheme} />
+            </AuthProvider>
+            <StatusBar />
+          </RootSiblingParent>
         </QueryClientProvider>
       </SafeAreaProvider>
     );

@@ -1,12 +1,16 @@
 import { StyleSheet } from 'react-native';
-import { Button } from '../../components/Button/Button';
-import { ClickableText } from '../../components/ClickableText/ClickableText';
-import { FormTextField } from '../../components/FormTextField/FormTextField';
+
+import { Button } from '../../components/design-system/Button/Button';
+import { ClickableText } from '../../components/design-system/ClickableText/ClickableText';
+import { FormTextField } from '../../components/design-system/FormTextField/FormTextField';
 import { Text, View } from '../../components/Themed';
 import { useAuth } from '../../contexts/auth';
 import { useFormValues } from '../../hooks/useFormValues';
 import { AuthScreenProps } from '../../navigation/auth/AuthNavigator';
 import { AuthFormFields } from './types';
+import { useLocation } from '../../location/useLocation';
+import { Spinner } from '../../components/design-system/Spinner/Spinner';
+import { Error } from '../../components/design-system/Error/Error';
 
 export function SigninScreen({ navigation }: AuthScreenProps<'Signin'>) {
   const { signIn: {
@@ -19,12 +23,22 @@ export function SigninScreen({ navigation }: AuthScreenProps<'Signin'>) {
     password: ''
   });
 
+  const { location, isLoading: isLocationLoading, error } = useLocation();
+
+  if (error) {
+    return <Error message={error} />;
+  }
+
+  if (isLocationLoading) {
+    return (
+      <Spinner />
+    );
+  }
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sign in</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-
       <FormTextField
         textContentType='emailAddress'
         autoComplete='email'
@@ -48,8 +62,8 @@ export function SigninScreen({ navigation }: AuthScreenProps<'Signin'>) {
           mutate({
             email: values.email,
             password: values.password,
-            latitude: 0,
-            longitude: 0
+            latitude: location?.coords.latitude || 0,
+            longitude: location?.coords.longitude || 0
           }, () => navigation.getParent('auth')?.navigate('App'));
         }} />
       <ClickableText onPress={() => navigation.navigate('Signup')}>Not signed up? Sign up!</ClickableText>
