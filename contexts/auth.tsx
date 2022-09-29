@@ -55,6 +55,7 @@ export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string
     });
     const { mutate: logoutMutation, isLoading: isLogoutLoading } = useMutation(logout, {
         onError(error: AxiosError<ApiErrorResponse>, variables, context) {
+            console.log(error);
             Toast.show(error.response?.data.issues[0].message || 'Failed to log out');
         },
     });
