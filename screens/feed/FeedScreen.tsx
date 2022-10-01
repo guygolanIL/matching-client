@@ -1,5 +1,5 @@
 import { Text, View } from "../../components/Themed";
-import { useFeedQuery } from "../../data/user/hooks/useFeedQuery";
+import { useFeedQuery } from "../../data/feed/hooks/useFeedQuery";
 import { StyleSheet } from 'react-native';
 import { Button } from "../../components/design-system/Button/Button";
 import { useAuth } from "../../contexts/auth";

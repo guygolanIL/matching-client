@@ -8,7 +8,7 @@ import { useAuth } from '../../contexts/auth';
 import { useFormValues } from '../../hooks/useFormValues';
 import { AuthScreenProps } from '../../navigation/auth/AuthNavigator';
 import { AuthFormFields } from './types';
-import { useLocation } from '../../location/useLocation';
+import { useLocation } from '../../hooks/useLocation';
 import { Spinner } from '../../components/design-system/Spinner/Spinner';
 import { Error } from '../../components/design-system/Error/Error';
 

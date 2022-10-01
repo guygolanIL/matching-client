@@ -10,7 +10,6 @@ export function useLocation() {
         async function requestLocation() {
             try {
                 const permissions = await Location.requestForegroundPermissionsAsync();
-                console.log(permissions);
 
                 if (!permissions.granted) {
                     setError('Location permissions required');

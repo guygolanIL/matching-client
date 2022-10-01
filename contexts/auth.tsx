@@ -1,11 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
 import Toast from 'react-native-root-toast';
-
 import { createContext, PropsWithChildren, useContext } from 'react';
-import { login, LoginRequestPayload, logout, register, RegisterRequestPayload } from '../data/user/api';
-import { useUserToken } from '../hooks/useUserToken';
 import { AxiosError } from 'axios';
+
+import { useUserToken } from '../hooks/useUserToken';
 import { ApiErrorResponse } from '../data/types';
+import { login, LoginRequestPayload, logout, register, RegisterRequestPayload } from '../data/auth/api';
 
 type AuthContextType = {
     loggedIn: boolean,
@@ -55,7 +55,6 @@ export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string
     });
     const { mutate: logoutMutation, isLoading: isLogoutLoading } = useMutation(logout, {
         onError(error: AxiosError<ApiErrorResponse>, variables, context) {
-            console.log(error);
             Toast.show(error.response?.data.issues[0].message || 'Failed to log out');
         },
     });

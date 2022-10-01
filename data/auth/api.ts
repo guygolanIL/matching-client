@@ -1,6 +1,10 @@
-import { httpClient } from '../http-client';
-import { ApiResponse } from '../types';
-import { LocalAuthPayload } from './types';
+import { httpClient } from "../http-client";
+import { ApiResponse } from "../types";
+
+export type LocalAuthPayload = {
+    email: string;
+    password: string;
+};
 
 export type RegisterRequestPayload = LocalAuthPayload;
 export type RegisterResponse = ApiResponse<{ id: number }>;
@@ -24,14 +28,6 @@ export type LogoutResponse = ApiResponse<{}>;
 export async function logout() {
     const url = '/auth/logout';
     const res = await httpClient.post<LogoutResponse>(url);
-
-    return res.data;
-}
-
-type FeedResponse = ApiResponse<Array<{ id: number; email: string; distance: number }>>;
-export async function feed() {
-    const url = "/feed";
-    const res = await httpClient.get<FeedResponse>(url);
 
     return res.data;
 }

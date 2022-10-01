@@ -33,7 +33,7 @@ function RootNavigator() {
   return (
     <RootStack.Navigator id='root' initialRouteName={auth.loggedIn ? 'App' : 'Auth'}>
       <RootStack.Screen options={{ headerShown: false }} name="Auth" component={AuthNavigator} />
-      <RootStack.Screen name="App" component={AppNavigator} />
+      <RootStack.Screen options={{ headerShown: false }} name="App" component={AppNavigator} />
     </RootStack.Navigator>
   );
 }

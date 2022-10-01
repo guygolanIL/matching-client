@@ -1,5 +1,5 @@
-
 import { NavigatorScreenParams } from '@react-navigation/native';
+
 import { AuthScreensParams } from './navigation/auth/AuthNavigator';
 
 declare global {

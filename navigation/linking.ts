@@ -29,7 +29,8 @@ export const linking: LinkingOptions<RootStackParamList> = {
       },
       App: {
         screens: {
-          Feed: "feed"
+          Feed: "feed",
+          Profile: 'profile'
         }
       }
     },

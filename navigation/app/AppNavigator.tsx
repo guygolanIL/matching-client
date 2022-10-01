@@ -1,22 +1,25 @@
-import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
+import { createDrawerNavigator, DrawerScreenProps } from '@react-navigation/drawer';
+
 import { FeedScreen } from '../../screens/feed/FeedScreen';
-
-const AppStack = createNativeStackNavigator();
-
-
-export type AppScreenProps<T extends keyof AppScreensParams> = NativeStackScreenProps<AppScreensParams, T, 'app'>;
+import { ProfileScreen } from '../../screens/profile/ProfileScreen';
 
 export type AppScreensParams = {
     Feed: undefined;
+    Profile: undefined;
 };
+const AppDrawerNavigator = createDrawerNavigator<AppScreensParams>();
+
+export type AppScreenProps<Screen extends keyof AppScreensParams> = DrawerScreenProps<AppScreensParams, Screen, 'app'>;
 
 
 export function AppNavigator() {
     return (
-        <AppStack.Navigator id='app' screenOptions={{
-            headerShown: false
-        }}>
-            <AppStack.Screen name='Feed' component={FeedScreen} />
-        </AppStack.Navigator>
+        <AppDrawerNavigator.Navigator
+            id='app'
+            backBehavior='none'
+        >
+            <AppDrawerNavigator.Screen name='Feed' component={FeedScreen} />
+            <AppDrawerNavigator.Screen name='Profile' component={ProfileScreen} />
+        </AppDrawerNavigator.Navigator>
     );
 }
