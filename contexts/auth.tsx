@@ -42,7 +42,14 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string | null }>) => {
-    const { eraseUserToken, updateUserToken, userToken } = useUserToken({ defaultValue: props.initialUserToken });
+    const {
+        eraseUserToken,
+        updateUserToken,
+        userToken,
+
+        eraseRefreshToken,
+        updateRefreshToken
+    } = useUserToken({ defaultValue: props.initialUserToken });
     const { mutate: loginMutation, isLoading: isLoginLoading } = useMutation(login, {
         onError(error: AxiosError<ApiErrorResponse>, variables, context) {
             Toast.show(error.response?.data.issues[0].message || "Failed to login");
@@ -64,6 +71,7 @@ export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string
         loginMutation(payload, {
             onSuccess: (data) => {
                 updateUserToken(data.result.accessToken);
+                updateRefreshToken(data.result.refreshToken);
                 cb();
             }
         });
@@ -81,6 +89,7 @@ export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string
         logoutMutation(undefined, {
             onSuccess(data, variables, context) {
                 eraseUserToken();
+                eraseRefreshToken();
                 cb();
             },
         });

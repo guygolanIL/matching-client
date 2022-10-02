@@ -27,7 +27,7 @@ export async function login(payload: LoginRequestPayload): Promise<LoginResponse
 export type LogoutResponse = ApiResponse<{}>;
 export async function logout() {
     const url = '/auth/logout';
-    const res = await httpClient.post<LogoutResponse>(url);
+    const res = await httpClient.delete<LogoutResponse>(url);
 
     return res.data;
 }
