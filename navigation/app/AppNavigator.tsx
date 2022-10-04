@@ -1,4 +1,6 @@
-import { createDrawerNavigator, DrawerScreenProps } from '@react-navigation/drawer';
+import { createBottomTabNavigator, BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import StackIcon from '@expo/vector-icons/Octicons';
+import ProfileIcon from '@expo/vector-icons/AntDesign';
 
 import { FeedScreen } from '../../screens/feed/FeedScreen';
 import { ProfileScreen } from '../../screens/profile/ProfileScreen';
@@ -7,19 +9,36 @@ export type AppScreensParams = {
     Feed: undefined;
     Profile: undefined;
 };
-const AppDrawerNavigator = createDrawerNavigator<AppScreensParams>();
+const AppBottomTabs = createBottomTabNavigator<AppScreensParams>();
 
-export type AppScreenProps<Screen extends keyof AppScreensParams> = DrawerScreenProps<AppScreensParams, Screen, 'app'>;
-
+export type AppScreenProps<Screen extends keyof AppScreensParams> = BottomTabScreenProps<AppScreensParams, Screen, 'app'>;
 
 export function AppNavigator() {
     return (
-        <AppDrawerNavigator.Navigator
+        <AppBottomTabs.Navigator
             id='app'
             backBehavior='none'
+            screenOptions={{
+                tabBarActiveTintColor: '#7aa7c7',
+            }}
         >
-            <AppDrawerNavigator.Screen name='Feed' component={FeedScreen} />
-            <AppDrawerNavigator.Screen name='Profile' component={ProfileScreen} />
-        </AppDrawerNavigator.Navigator>
+            <AppBottomTabs.Screen
+                name='Feed'
+                component={FeedScreen}
+                options={{
+                    tabBarShowLabel: false,
+                    tabBarIcon: ({ color }) => <StackIcon name="stack" size={32} color={color} />
+                }}
+            />
+
+            <AppBottomTabs.Screen
+                name='Profile'
+                component={ProfileScreen}
+                options={{
+                    tabBarShowLabel: false,
+                    tabBarIcon: ({ color }) => <ProfileIcon name="profile" size={32} color={color} />
+                }}
+            />
+        </AppBottomTabs.Navigator>
     );
 }

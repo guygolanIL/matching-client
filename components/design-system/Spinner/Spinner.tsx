@@ -1,6 +1,4 @@
-import { ActivityIndicator, StyleSheet } from 'react-native';
-
-import { View } from "../../Themed";
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 export function Spinner() {
     const color = '#7aa7c7'

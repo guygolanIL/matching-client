@@ -1,9 +1,9 @@
-import { Text, View } from "../../components/Themed";
+import { StyleSheet, View, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
 import { useFeedQuery } from "../../data/feed/hooks/useFeedQuery";
-import { StyleSheet } from 'react-native';
 import { Button } from "../../components/design-system/Button/Button";
 import { useAuth } from "../../contexts/auth";
-import { useNavigation } from '@react-navigation/native';
 
 export function FeedScreen() {
     const auth = useAuth();

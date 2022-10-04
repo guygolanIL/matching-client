@@ -1,10 +1,9 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Toast from 'react-native-root-toast';
 
 import { Error } from '../../components/design-system/Error/Error';
 import { Button } from '../../components/design-system/Button/Button';
 import { Spinner } from '../../components/design-system/Spinner/Spinner';
-import { View } from "../../components/Themed";
 import { useUploadProfileImageMutation } from '../../data/profile/hooks/useUploadProfileImageMutation';
 import { useUserProfileQuery } from '../../data/profile/hooks/useUserProfileQuery';
 import { useImagePicker } from '../../hooks/useImagePicker';

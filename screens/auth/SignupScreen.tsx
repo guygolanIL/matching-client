@@ -1,10 +1,9 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+
 import { Button } from '../../components/design-system/Button/Button';
 import { ClickableText } from '../../components/design-system/ClickableText/ClickableText';
 import { FormTextField } from '../../components/design-system/FormTextField/FormTextField';
-
-import { Text, View } from '../../components/Themed';
 import { useAuth } from '../../contexts/auth';
 import { useFormValues } from '../../hooks/useFormValues';
 import { AuthScreenProps } from '../../navigation/auth/AuthNavigator';
@@ -25,7 +24,7 @@ export function SignupScreen({ navigation }: AuthScreenProps<'Signup'>) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sign up</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <View style={styles.separator} />
 
       <FormTextField
         keyboardType="email-address"
