@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import Toast from 'react-native-root-toast';
 
 import { Error } from '../../components/design-system/Error/Error';
@@ -8,6 +8,21 @@ import { useUploadProfileImageMutation } from '../../data/profile/hooks/useUploa
 import { useUserProfileQuery } from '../../data/profile/hooks/useUserProfileQuery';
 import { useImagePicker } from '../../hooks/useImagePicker';
 import { ImageButton } from '../../components/design-system/ImageButton/ImageButton';
+import * as Styling from '../../components/design-system/style';
+
+const useStyles = Styling.createStyles(() => ({
+    screen: {
+        flex: 1,
+        paddingVertical: 10,
+    },
+    imageSection: {
+        alignItems: 'center'
+    },
+    confirmSection: {
+        alignItems: 'center',
+        marginTop: 'auto'
+    }
+}));
 
 function getImageUri(profileImageUri: string, pickedImageUri: string | undefined): string {
     if (pickedImageUri) return pickedImageUri
@@ -16,6 +31,7 @@ function getImageUri(profileImageUri: string, pickedImageUri: string | undefined
 }
 
 export function ProfileScreen() {
+    const styles = useStyles();
     const { mutate, isLoading } = useUploadProfileImageMutation();
     const imagePicker = useImagePicker({
         onError(e) {
@@ -50,17 +66,3 @@ export function ProfileScreen() {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    screen: {
-        flex: 1,
-        paddingVertical: 10,
-    },
-    imageSection: {
-        alignItems: 'center'
-    },
-    confirmSection: {
-        alignItems: 'center',
-        marginTop: 'auto'
-    }
-});

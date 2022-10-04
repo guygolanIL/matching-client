@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { Button } from '../../components/design-system/Button/Button';
 import { ClickableText } from '../../components/design-system/ClickableText/ClickableText';
@@ -8,9 +8,28 @@ import { useAuth } from '../../contexts/auth';
 import { useFormValues } from '../../hooks/useFormValues';
 import { AuthScreenProps } from '../../navigation/auth/AuthNavigator';
 import { AuthFormFields } from './types';
+import * as Styling from '../../components/design-system/style';
+
+const useStyles = Styling.createStyles(() => ({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 100
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  separator: {
+    marginVertical: 30,
+    height: 1,
+    width: '80%',
+  },
+}));
 
 export function SignupScreen({ navigation }: AuthScreenProps<'Signup'>) {
-
+  const styles = useStyles();
   const { signUp: {
     isLoading,
     mutate
@@ -51,21 +70,3 @@ export function SignupScreen({ navigation }: AuthScreenProps<'Signup'>) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: 100
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});

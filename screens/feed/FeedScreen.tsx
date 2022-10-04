@@ -1,11 +1,19 @@
-import { StyleSheet, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { useFeedQuery } from "../../data/feed/hooks/useFeedQuery";
 import { Button } from "../../components/design-system/Button/Button";
 import { useAuth } from "../../contexts/auth";
+import * as Styling from '../../components/design-system/style';
+
+const useStyles = Styling.createStyles(() => ({
+    screen: {
+        flex: 1
+    }
+}));
 
 export function FeedScreen() {
+    const styles = useStyles();
     const auth = useAuth();
     const navigation = useNavigation();
     const { feed, isFeedLoading } = useFeedQuery();
@@ -23,9 +31,3 @@ export function FeedScreen() {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    screen: {
-        flex: 1
-    }
-})

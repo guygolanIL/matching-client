@@ -1,6 +1,6 @@
 import * as Location from 'expo-location';
-
 import { useState, useEffect } from 'react';
+
 export function useLocation() {
     const [location, setLocation] = useState<Location.LocationObject>();
     const [isLoading, setIsLoading] = useState(true);
