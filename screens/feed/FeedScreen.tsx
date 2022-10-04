@@ -8,7 +8,8 @@ import * as Styling from '../../components/design-system/style';
 
 const useStyles = Styling.createStyles(() => ({
     screen: {
-        flex: 1
+        flex: 1,
+        paddingVertical: 10,
     }
 }));
 

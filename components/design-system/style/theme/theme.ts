@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+
 export const theme = {
     palette: {
         primary: {
@@ -13,16 +14,17 @@ export function useTheme(): Theme {
     return theme;
 }
 
-type Styles = StyleSheet.NamedStyles<any>;
 
-type StyleCreatorOptions<Props> = { theme: Theme, props?: Props };
-type StyleCreator<Props> = (opt: StyleCreatorOptions<Props>) => Styles;
-export function createStyles<Props = void>(styleCreator: StyleCreator<Props>): (props: Props) => Styles {
+type CreatorOptions<P> = {
+    theme: Theme;
+    props?: P
+};
+export function createStyles<T extends StyleSheet.NamedStyles<T> | StyleSheet.NamedStyles<any>, P>(
+    creator: (options: CreatorOptions<P>) => (T | StyleSheet.NamedStyles<T>)
+) {
 
-    const useStyles = (props: Props): Styles => {
+    return function useStyles(props?: P): T {
         const theme = useTheme();
-        return StyleSheet.create(styleCreator({ theme, props }));
+        return StyleSheet.create(creator({ theme, props }));
     }
-
-    return useStyles;
 }
