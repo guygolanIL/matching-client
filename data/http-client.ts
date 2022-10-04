@@ -29,6 +29,7 @@ async function tokenInterceptor(config: AxiosRequestConfig) {
 
 httpClient.interceptors.request.use(tokenInterceptor);
 
+
 httpClient.interceptors.response.use(
     (res) => res,
     async (err: AxiosError<ApiErrorResponse>) => {
@@ -53,6 +54,7 @@ httpClient.interceptors.response.use(
 
             return httpClient(originalRequest);
         }
+
         return Promise.reject(err);
     }
 );

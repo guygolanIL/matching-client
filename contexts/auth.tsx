@@ -9,7 +9,6 @@ import { login, LoginRequestPayload, logout, register, RegisterRequestPayload } 
 
 type AuthContextType = {
     loggedIn: boolean,
-    userToken: string | null | undefined,
     signIn: {
         mutate: (payload: LoginRequestPayload, cb: () => void) => void;
         isLoading: boolean;
@@ -26,7 +25,6 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType>({
     loggedIn: false,
-    userToken: null,
     signIn: {
         isLoading: false,
         mutate: () => { },
@@ -51,18 +49,18 @@ export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string
         updateRefreshToken
     } = useUserToken({ defaultValue: props.initialUserToken });
     const { mutate: loginMutation, isLoading: isLoginLoading } = useMutation(login, {
-        onError(error: AxiosError<ApiErrorResponse>, variables, context) {
-            Toast.show(error.response?.data.issues[0].message || "Failed to login");
+        onError(error: AxiosError<ApiErrorResponse>) {
+            Toast.show(error.response?.data?.issues[0]?.message || "Failed to login");
         },
     });
     const { mutate: registerMutation, isLoading: isRegisterLoading } = useMutation(register, {
-        onError(error: AxiosError<ApiErrorResponse>, variables, context) {
-            Toast.show(error.response?.data.issues[0].message || 'Failed to register');
+        onError(error: AxiosError<ApiErrorResponse>) {
+            Toast.show(error.response?.data?.issues[0]?.message || 'Failed to register');
         },
     });
     const { mutate: logoutMutation, isLoading: isLogoutLoading } = useMutation(logout, {
-        onError(error: AxiosError<ApiErrorResponse>, variables, context) {
-            Toast.show(error.response?.data.issues[0].message || 'Failed to log out');
+        onError(error: AxiosError<ApiErrorResponse>) {
+            Toast.show(error.response?.data?.issues[0]?.message || 'Failed to log out');
         },
     });
 
@@ -98,7 +96,6 @@ export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string
     return (
         <AuthContext.Provider value={{
             loggedIn: !!userToken,
-            userToken,
             signIn: {
                 isLoading: isLoginLoading,
                 mutate: signIn,

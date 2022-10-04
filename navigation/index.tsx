@@ -9,7 +9,7 @@ import { AppNavigator } from './app/AppNavigator';
 import { useAuth } from '../contexts/auth';
 import { useReduxDevToolsExtension } from '@react-navigation/devtools';
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+export default function Navigation() {
   const navigationRef = useNavigationContainerRef();
 
   useReduxDevToolsExtension(navigationRef);
@@ -18,7 +18,6 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
     <NavigationContainer
       ref={navigationRef}
       linking={linking}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
     >
       <RootNavigator />
     </NavigationContainer>
