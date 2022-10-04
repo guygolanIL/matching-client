@@ -1,4 +1,6 @@
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
+
+import * as Styling from '../../design-system/style';
 
 type ButtonProps = {
     onPress: () => void;
@@ -6,9 +8,25 @@ type ButtonProps = {
     color?: string;
     loading?: boolean;
 }
+
+const useStyles = Styling.createStyles<ButtonProps>(({ theme, props }) => ({
+    button: {
+        alignItems: 'center',
+        padding: 15,
+        borderRadius: 10,
+        borderColor: '#000000',
+        width: '90%',
+        backgroundColor: props?.color || theme.palette.primary.main
+    } as const,
+    buttonText: {
+        fontWeight: '500',
+        color: '#ffffff'
+    } as const,
+}));
+
 export function Button(props: ButtonProps) {
     const { label, onPress } = props;
-    const styles = createStyles(props);
+    const styles = useStyles(props);
     return (
         <TouchableOpacity style={styles.button} onPress={onPress}>
             {!props.loading && <Text style={styles.buttonText}>{label}</Text>}
@@ -16,18 +34,3 @@ export function Button(props: ButtonProps) {
         </TouchableOpacity>
     );
 }
-
-const createStyles = (props: ButtonProps) => StyleSheet.create({
-    button: {
-        alignItems: 'center',
-        padding: 15,
-        borderRadius: 10,
-        borderColor: '#000000',
-        width: '90%',
-        backgroundColor: props.color || '#7aa7c7'
-    } as const,
-    buttonText: {
-        fontWeight: '500',
-        color: '#ffffff'
-    } as const
-});

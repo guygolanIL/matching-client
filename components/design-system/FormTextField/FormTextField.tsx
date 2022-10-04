@@ -1,18 +1,9 @@
 import React from "react";
-import { StyleSheet, TextInput, TextInputProps } from "react-native";
+import { TextInput, TextInputProps } from "react-native";
 
-type FormTextFieldProps = {} & TextInputProps;
-export function FormTextField(props: FormTextFieldProps) {
-    return (
-        <TextInput
-            {...props}
-            style={styles.input}
-            selectionColor={'#7aa7c7'}
-        />
-    );
-}
+import * as Styling from '../style';
 
-const styles = StyleSheet.create({
+const useStyles = Styling.createStyles(() => ({
     input: {
         borderColor: 'black',
         borderWidth: 1,
@@ -21,4 +12,15 @@ const styles = StyleSheet.create({
         width: '90%',
         marginBottom: 10
     },
-});
+}));
+type FormTextFieldProps = {} & TextInputProps;
+export function FormTextField(props: FormTextFieldProps) {
+    const styles = useStyles();
+    return (
+        <TextInput
+            {...props}
+            style={styles.input}
+            selectionColor={'#7aa7c7'}
+        />
+    );
+}

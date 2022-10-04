@@ -1,5 +1,7 @@
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { StyleSheet, Image } from 'react-native';
+import { Image } from 'react-native';
+
+import * as Styling from '../style';
 
 function getBorderRadius(shape?: Shape): number {
 
@@ -14,6 +16,15 @@ function getBorderRadius(shape?: Shape): number {
 
 }
 
+const useStyles = Styling.createStyles<Props>(({ theme, props }) => {
+    const [width, height] = props?.size || [20, 20];
+    return ({
+        imagebutton: {
+            width,
+            height,
+        },
+    });
+});
 type Shape = 'circle' | 'smooth';
 type Size = [number, number];
 export type Props = {
@@ -24,7 +35,7 @@ export type Props = {
 };
 export function ImageButton(props: Props) {
     const [width, height] = props.size;
-    const styles = createStyles(props);
+    const styles = useStyles(props);
     const borderRadius: number = getBorderRadius(props.shape);
 
     return (
@@ -33,13 +44,3 @@ export function ImageButton(props: Props) {
         </TouchableOpacity>
     );
 }
-
-function createStyles(props: Props) {
-    const [width, height] = props.size;
-    return StyleSheet.create({
-        imagebutton: {
-            width,
-            height,
-        },
-    });
-} 

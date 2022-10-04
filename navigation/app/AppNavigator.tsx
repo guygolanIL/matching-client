@@ -1,25 +1,30 @@
 import { createBottomTabNavigator, BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import StackIcon from '@expo/vector-icons/Octicons';
 import ProfileIcon from '@expo/vector-icons/AntDesign';
+import ChatIcon from '@expo/vector-icons/Ionicons';
 
+import * as Styling from '../../components/design-system/style';
 import { FeedScreen } from '../../screens/feed/FeedScreen';
 import { ProfileScreen } from '../../screens/profile/ProfileScreen';
+import { ChatsScreen } from '../../screens/chats/ChatsScreen';
 
 export type AppScreensParams = {
     Feed: undefined;
     Profile: undefined;
+    Chats: undefined;
 };
 const AppBottomTabs = createBottomTabNavigator<AppScreensParams>();
 
 export type AppScreenProps<Screen extends keyof AppScreensParams> = BottomTabScreenProps<AppScreensParams, Screen, 'app'>;
 
 export function AppNavigator() {
+    const theme = Styling.useTheme();
     return (
         <AppBottomTabs.Navigator
             id='app'
             backBehavior='none'
             screenOptions={{
-                tabBarActiveTintColor: '#7aa7c7',
+                tabBarActiveTintColor: theme.palette.primary.main,
             }}
         >
             <AppBottomTabs.Screen
@@ -37,6 +42,15 @@ export function AppNavigator() {
                 options={{
                     tabBarShowLabel: false,
                     tabBarIcon: ({ color }) => <ProfileIcon name="profile" size={32} color={color} />
+                }}
+            />
+
+            <AppBottomTabs.Screen
+                name='Chats'
+                component={ChatsScreen}
+                options={{
+                    tabBarShowLabel: false,
+                    tabBarIcon: ({ color }) => <ChatIcon name="chatbubble-ellipses-outline" size={32} color={color} />
                 }}
             />
         </AppBottomTabs.Navigator>
