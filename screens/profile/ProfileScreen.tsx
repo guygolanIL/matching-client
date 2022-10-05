@@ -43,20 +43,19 @@ export function ProfileScreen() {
         },
     });
     const { data: userProfile, isError, isLoading: isUserProfileLoading } = useUserProfileQuery();
-    useEffect(() => {
-        console.log('not good');
-    }, []);
 
-    if (isUserProfileLoading) return <Spinner />
-    if (isError) return <Error message='Failed to load profile :(' />
+
+    if (isUserProfileLoading) return <Spinner />;
+    if (isError) return <Error message='Failed to load profile :(' />;
 
     const savedImageUri = userProfile.result.profileImage?.url;
 
-    const uri = getImageUri(savedImageUri, imagePicker.imageInfo?.uri);
+    const uri = getImageUri(savedImageUri, imagePicker.imageInfo?.uri) || defaultAvatarUri;
+
     return (
         <View style={styles.screen}>
             <View style={styles.imageSection}>
-                <ImageButton defaultUri={defaultAvatarUri} shape='circle' uri={uri} size={[200, 200]} onPress={() => imagePicker.open()} />
+                <ImageButton shape='circle' uri={uri} size={[200, 200]} onPress={() => imagePicker.open()} />
             </View>
 
             <View style={styles.confirmSection}>

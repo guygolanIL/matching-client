@@ -1,5 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { Button } from "../../components/design-system/Button/Button";
 import { useAuth } from "../../contexts/auth";
 
@@ -7,8 +6,13 @@ export function SettingsScreen() {
     const { signOut } = useAuth();
 
     return (
-        <View>
-            <Button label="Logout" onPress={() => signOut.mutate()} />
+        <View style={{
+            flex: 1
+        }}>
+            <View style={{ marginTop: 'auto' }}>
+                <Button label="Logout" onPress={() => signOut.mutate()} />
+
+            </View>
         </View>
     );
 }

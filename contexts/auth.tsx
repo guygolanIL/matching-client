@@ -40,7 +40,7 @@ const AuthContext = createContext<IAuthContext>({
 });
 
 export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string | null }>) => {
-
+    const queryClient = useQueryClient();
     const {
         eraseUserToken,
         updateUserToken,
@@ -90,6 +90,7 @@ export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string
                 eraseUserToken();
                 eraseRefreshToken();
                 cb?.();
+                queryClient.clear();
             },
         });
     }

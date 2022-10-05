@@ -28,6 +28,7 @@ export function AppNavigator() {
             backBehavior='none'
             detachInactiveScreens
             screenOptions={{
+                unmountOnBlur: true,
                 tabBarActiveTintColor: theme.palette.primary.main,
             }}
         >

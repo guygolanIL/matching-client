@@ -13,7 +13,7 @@ const useStyles = Styling.createStyles(({ theme, props }: { theme: Styling.Theme
     button: {
         alignItems: 'center',
         padding: 15,
-        borderRadius: 10,
+        borderRadius: theme.shape.borderRadius,
         borderColor: '#000000',
         width: '90%',
         backgroundColor: props?.color || theme.palette.primary.main

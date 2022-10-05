@@ -5,6 +5,9 @@ export const theme = {
         primary: {
             main: '#7aa7c7'
         },
+    },
+    shape: {
+        borderRadius: 10,
     }
 } as const
 
