@@ -11,7 +11,6 @@ import { ImageButton } from '../../components/design-system/ImageButton/ImageBut
 import * as Styling from '../../components/design-system/style';
 
 import defaultAvatar from '../../assets/images/favicon.png';
-import { useEffect } from 'react';
 const defaultAvatarUri = Image.resolveAssetSource(defaultAvatar).uri
 
 const useStyles = Styling.createStyles(() => ({

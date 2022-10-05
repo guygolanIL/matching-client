@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 
 import { Button } from '../../../components/design-system/Button/Button';
 import { Error } from '../../../components/design-system/Error/Error';
@@ -7,6 +7,10 @@ import * as Styling from '../../../components/design-system/style';
 import { Attitude } from '../../../data/feed/api';
 import { useClassifyMutation } from '../../../data/feed/hooks/useClassifyMutation';
 import { ImageStack } from './ImageStack/ImageStack';
+
+import defaultAvatar from '../../../assets/images/favicon.png';
+const defaultAvatarUri = Image.resolveAssetSource(defaultAvatar).uri
+
 
 type Subject = {
     profileImgUri: string;
@@ -38,7 +42,7 @@ export function UserClassifier(props: Props) {
     return (
         <View style={styles.classifier}>
             <View style={styles.imageSection}>
-                <ImageStack uri={displayedUser.profileImgUri} />
+                <ImageStack uri={displayedUser.profileImgUri || defaultAvatarUri} />
             </View>
             <ButtonSection onClassify={async (attitude) => {
                 setUsers(users.slice(1));
