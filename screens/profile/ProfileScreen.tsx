@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import Toast from 'react-native-root-toast';
 
 import { Error } from '../../components/design-system/Error/Error';
@@ -9,6 +9,10 @@ import { useUserProfileQuery } from '../../data/profile/hooks/useUserProfileQuer
 import { useImagePicker } from '../../hooks/useImagePicker';
 import { ImageButton } from '../../components/design-system/ImageButton/ImageButton';
 import * as Styling from '../../components/design-system/style';
+
+import defaultAvatar from '../../assets/images/favicon.png';
+import { useEffect } from 'react';
+const defaultAvatarUri = Image.resolveAssetSource(defaultAvatar).uri
 
 const useStyles = Styling.createStyles(() => ({
     screen: {
@@ -24,7 +28,7 @@ const useStyles = Styling.createStyles(() => ({
     }
 }));
 
-function getImageUri(profileImageUri: string, pickedImageUri: string | undefined): string {
+function getImageUri(profileImageUri: string | undefined, pickedImageUri: string | undefined): string | undefined {
     if (pickedImageUri) return pickedImageUri
 
     return profileImageUri;
@@ -39,18 +43,20 @@ export function ProfileScreen() {
         },
     });
     const { data: userProfile, isError, isLoading: isUserProfileLoading } = useUserProfileQuery();
+    useEffect(() => {
+        console.log('not good');
+    }, []);
 
     if (isUserProfileLoading) return <Spinner />
     if (isError) return <Error message='Failed to load profile :(' />
 
-    const savedImageUri = userProfile.result.profileImage.url;
+    const savedImageUri = userProfile.result.profileImage?.url;
 
     const uri = getImageUri(savedImageUri, imagePicker.imageInfo?.uri);
-
     return (
         <View style={styles.screen}>
             <View style={styles.imageSection}>
-                <ImageButton shape='circle' uri={uri} size={[200, 200]} onPress={() => imagePicker.open()} />
+                <ImageButton defaultUri={defaultAvatarUri} shape='circle' uri={uri} size={[200, 200]} onPress={() => imagePicker.open()} />
             </View>
 
             <View style={styles.confirmSection}>

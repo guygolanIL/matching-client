@@ -28,7 +28,7 @@ export async function uploadImage(requestbody: UploadImageRequestBody): Promise<
 type UserProfile = {
     id: number
     userId: number
-    profileImage: ProfileImage;
+    profileImage?: ProfileImage;
 };
 type GetUserProfileResponseBody = ApiResponse<UserProfile>;
 export async function getUserProfile(): Promise<GetUserProfileResponseBody> {

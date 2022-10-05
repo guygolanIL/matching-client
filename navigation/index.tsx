@@ -30,9 +30,15 @@ function RootNavigator() {
   const auth = useAuth();
 
   return (
-    <RootStack.Navigator id='root' initialRouteName={auth.loggedIn ? 'App' : 'Auth'}>
-      <RootStack.Screen options={{ headerShown: false }} name="Auth" component={AuthNavigator} />
-      <RootStack.Screen options={{ headerShown: false }} name="App" component={AppNavigator} />
+    <RootStack.Navigator
+      id='root'
+      initialRouteName={auth.loggedIn ? 'App' : 'Auth'}
+    >
+      {
+        auth.loggedIn ?
+          <RootStack.Screen options={{ headerShown: false }} name="App" component={AppNavigator} />
+          : <RootStack.Screen options={{ headerShown: false }} name="Auth" component={AuthNavigator} />
+      }
     </RootStack.Navigator>
   );
 }

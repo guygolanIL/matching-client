@@ -11,8 +11,6 @@ function useTokensVerification() {
   const { getItem: getUserToken, removeItem: purgeUserToken } = useAsyncStorage('@user-token');
   const { getItem: getRefreshToken, removeItem: purgeRefreshToken } = useAsyncStorage('@refresh-token');
 
-
-
   return {
     async verify(): Promise<string | null> {
       const savedUserToken = await getUserToken();

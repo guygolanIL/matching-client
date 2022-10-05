@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Toast from 'react-native-root-toast';
 import { createContext, PropsWithChildren, useContext } from 'react';
 import { AxiosError } from 'axios';
@@ -7,7 +7,7 @@ import { useUserToken } from '../hooks/useUserToken';
 import { ApiErrorResponse } from '../data/types';
 import { login, LoginRequestPayload, logout, register, RegisterRequestPayload } from '../data/auth/api';
 
-type AuthContextType = {
+type IAuthContext = {
     loggedIn: boolean,
     signIn: {
         mutate: (payload: LoginRequestPayload, cb: () => void) => void;
@@ -18,12 +18,12 @@ type AuthContextType = {
         isLoading: boolean;
     },
     signOut: {
-        mutate: (cb: () => void) => void;
+        mutate: (cb?: () => void) => void;
         isLoading: boolean;
     }
 }
 
-const AuthContext = createContext<AuthContextType>({
+const AuthContext = createContext<IAuthContext>({
     loggedIn: false,
     signIn: {
         isLoading: false,
@@ -40,6 +40,7 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string | null }>) => {
+
     const {
         eraseUserToken,
         updateUserToken,
@@ -83,12 +84,12 @@ export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string
         })
     }
 
-    function signOut(cb: () => void) {
+    function signOut(cb?: () => void) {
         logoutMutation(undefined, {
             onSuccess(data, variables, context) {
                 eraseUserToken();
                 eraseRefreshToken();
-                cb();
+                cb?.();
             },
         });
     }

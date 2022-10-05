@@ -5,7 +5,7 @@ export function useFeedQuery() {
     const { data, isLoading } = useQuery(['feed'], feed);
 
     return {
-        feed: data,
+        feed: data?.result,
         isFeedLoading: isLoading
     };
 }

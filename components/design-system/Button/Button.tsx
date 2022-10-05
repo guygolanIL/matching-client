@@ -9,7 +9,7 @@ type ButtonProps = {
     loading?: boolean;
 }
 
-const useStyles = Styling.createStyles<ButtonProps>(({ theme, props }) => ({
+const useStyles = Styling.createStyles(({ theme, props }: { theme: Styling.Theme, props?: ButtonProps }) => ({
     button: {
         alignItems: 'center',
         padding: 15,
