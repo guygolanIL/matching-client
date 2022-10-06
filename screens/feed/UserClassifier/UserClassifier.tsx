@@ -27,11 +27,12 @@ const useStyles = Styling.createStyles(() => ({
 }));
 export type Props = {
     users: Array<Subject>;
+    onClassify: (user: Subject, attitude: Attitude) => void;
 };
 export function UserClassifier(props: Props) {
-    const { mutateAsync } = useClassifyMutation();
     const styles = useStyles();
-    const [users, setUsers] = useState<Subject[]>(props.users);
+
+    const { users, onClassify } = props;
 
     if (users.length === 0) {
         return <Error message='Come back tommorrow...' />
@@ -44,13 +45,7 @@ export function UserClassifier(props: Props) {
             <View style={styles.imageSection}>
                 <ImageStack uri={displayedUser.profileImgUri || defaultAvatarUri} />
             </View>
-            <ButtonSection onClassify={async (attitude) => {
-                setUsers(users.slice(1));
-                mutateAsync({
-                    attitude,
-                    classifiedUserId: displayedUser.userId,
-                })
-            }} />
+            <ButtonSection onClassify={async (attitude) => onClassify(displayedUser, attitude)} />
         </View>
     );
 }
