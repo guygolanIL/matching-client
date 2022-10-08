@@ -17,9 +17,12 @@ export async function feed() {
 export type Attitude = "POSITIVE" | 'NEGATIVE';
 
 type ClassifyResponse = ApiResponse<{
-    attitude: Attitude
-    classifierUserId: number
-    classifiedUserId: number
+    classification: {
+        attitude: Attitude
+        classifierUserId: number
+        classifiedUserId: number
+    },
+    matchedUserId?: number;
 }>;
 type ClassifyRequest = {
     attitude: Attitude;

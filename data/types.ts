@@ -9,3 +9,8 @@ export type ApiErrorResponse = {
         message: string;
     }>;
 }
+
+export type UserInfo = {
+    id: number;
+    email: string;
+}

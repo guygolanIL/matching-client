@@ -40,6 +40,7 @@ export function useChat() {
         setSocket(socket);
 
         return () => {
+            socket.close();
             socket.off('connect');
             socket.off('disconnect');
             socket.off('pong');

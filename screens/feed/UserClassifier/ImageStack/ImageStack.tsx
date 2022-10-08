@@ -18,7 +18,7 @@ const useStyles = Styling.createStyles(({ theme }) => ({
         height: '100%',
     },
     image: {
-        borderRadius: theme.shape.borderRadius,
+        borderRadius: theme.shape.borderRadius.smooth,
         position: 'absolute',
         width: '100%',
         height: '100%',

@@ -6,9 +6,10 @@ import { AxiosError } from 'axios';
 import { useUserToken } from '../hooks/useUserToken';
 import { ApiErrorResponse } from '../data/types';
 import { login, LoginRequestPayload, logout, register, RegisterRequestPayload } from '../data/auth/api';
+import { jwt } from '../util/jwt';
 
 type IAuthContext = {
-    loggedIn: boolean,
+    userEmail?: string,
     signIn: {
         mutate: (payload: LoginRequestPayload, cb: () => void) => void;
         isLoading: boolean;
@@ -24,7 +25,6 @@ type IAuthContext = {
 }
 
 const AuthContext = createContext<IAuthContext>({
-    loggedIn: false,
     signIn: {
         isLoading: false,
         mutate: () => { },
@@ -65,7 +65,6 @@ export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string
         },
     });
 
-
     function signIn(payload: LoginRequestPayload, cb: () => void) {
         loginMutation(payload, {
             onSuccess: (data) => {
@@ -95,9 +94,11 @@ export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string
         });
     }
 
+    const userEmail = jwt.extractPayload(userToken)?.email;
+
     return (
         <AuthContext.Provider value={{
-            loggedIn: !!userToken,
+            userEmail,
             signIn: {
                 isLoading: isLoginLoading,
                 mutate: signIn,

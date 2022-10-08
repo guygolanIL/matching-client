@@ -24,7 +24,6 @@ export async function uploadImage(requestbody: UploadImageRequestBody): Promise<
     return res.data;
 }
 
-
 type UserProfile = {
     id: number
     userId: number

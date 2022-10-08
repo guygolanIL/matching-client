@@ -1,17 +1,50 @@
-import { Text, View } from "react-native";
-import { Button } from "../../components/design-system/Button/Button";
-import { useChat } from "./useChat";
+import { View } from "react-native";
+import { Link } from '@react-navigation/native';
 
+import { Error } from "../../components/design-system/Error/Error";
+import { Spinner } from "../../components/design-system/Spinner/Spinner";
+import { useGetMatchesQuery } from "../../data/chat/useGetMatchesQuery";
+import { useTheme } from "../../components/design-system/style";
+import { MatchButton } from "./MatchButton";
+import * as Styling from '../../components/design-system/style';
+
+const useStyles = Styling.createStyles(() => ({
+    buttonContainer: {
+        marginBottom: 10
+    }
+}));
 export function ChatsScreen() {
-    const { socket, isConnected, lastPong } = useChat();
+    const styles = useStyles();
+    const { data: matches, isLoading } = useGetMatchesQuery();
+    const theme = useTheme();
+
+    if (isLoading) return <Spinner />;
+
+    if (matches?.length === 0) return (
+        <Error message={
+            <Link
+                style={{
+                    color: theme.palette.primary.main
+                }}
+                to={{
+                    screen: 'App', params: {
+                        screen: 'Feed'
+                    }
+                }}
+            >
+                No matches yet... :(
+            </Link>}
+        />
+    );
 
 
     return (
-        <View>
-            <Text>chat</Text>
-            <Text>{isConnected ? "connected" : "disconnected"}</Text>
-            <Text>{lastPong}</Text>
-            <Button label="ping" onPress={() => socket?.emit('message', "asd")} />
+        <View style={{ padding: 10 }}>
+            {matches?.map(({ email, userId, profileImgUri }) => (
+                <View key={userId} style={styles.buttonContainer}>
+                    <MatchButton email={email} profileImageUri={profileImgUri} onPress={() => console.log(userId)} />
+                </View>
+            ))}
         </View>
     );
 }

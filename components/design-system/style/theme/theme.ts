@@ -13,7 +13,10 @@ export const theme = {
         }
     },
     shape: {
-        borderRadius: 10,
+        borderRadius: {
+            max: 50,
+            smooth: 10
+        },
     }
 } as const
 

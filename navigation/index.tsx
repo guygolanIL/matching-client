@@ -27,14 +27,14 @@ export default function Navigation() {
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  const auth = useAuth();
+  const { userEmail } = useAuth();
 
   return (
     <RootStack.Navigator
       id='root'
-      initialRouteName={auth.loggedIn ? 'App' : 'Auth'}
+      initialRouteName={userEmail ? 'App' : 'Auth'}
     >
-      {auth.loggedIn ?
+      {userEmail ?
         <RootStack.Screen options={{ headerShown: false }} name="App" component={AppNavigator} />
         : <RootStack.Screen options={{ headerShown: false }} name="Auth" component={AuthNavigator} />}
     </RootStack.Navigator>
