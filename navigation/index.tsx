@@ -1,13 +1,26 @@
-import { NavigationContainer, DefaultTheme, DarkTheme, useNavigationContainerRef } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ColorSchemeName } from 'react-native';
+import { NavigationContainer, NavigatorScreenParams, useNavigation, useNavigationContainerRef } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { useReduxDevToolsExtension } from '@react-navigation/devtools';
+import React from 'react';
 
 import { linking } from './linking';
-import { AuthNavigator } from './auth/AuthNavigator';
-import { RootStackParamList } from '../types';
-import { AppNavigator } from './app/AppNavigator';
+import { AuthNavigator, AuthScreensParams } from './auth/AuthNavigator';
+import { AppNavigator, AppScreensParams } from './app/AppNavigator';
 import { useAuth } from '../contexts/auth';
-import { useReduxDevToolsExtension } from '@react-navigation/devtools';
+import { SheetProvider } from 'react-native-actions-sheet';
+
+
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends RootStackParamList { }
+  }
+}
+
+export type RootStackParamList = {
+  Auth: NavigatorScreenParams<AuthScreensParams> | undefined;
+  App: NavigatorScreenParams<AppScreensParams> | undefined;
+};
+
 
 export default function Navigation() {
   const navigationRef = useNavigationContainerRef();
@@ -19,12 +32,14 @@ export default function Navigation() {
       ref={navigationRef}
       linking={linking}
     >
-      <RootNavigator />
+      <SheetProvider>
+        <RootNavigator />
+      </SheetProvider>
     </NavigationContainer>
   );
 }
 
-const RootStack = createNativeStackNavigator<RootStackParamList>();
+const RootStack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   const { userEmail } = useAuth();
@@ -37,6 +52,8 @@ function RootNavigator() {
       {userEmail ?
         <RootStack.Screen options={{ headerShown: false }} name="App" component={AppNavigator} />
         : <RootStack.Screen options={{ headerShown: false }} name="Auth" component={AuthNavigator} />}
+
     </RootStack.Navigator>
   );
 }
+

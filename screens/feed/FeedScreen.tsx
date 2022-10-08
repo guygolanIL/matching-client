@@ -1,11 +1,13 @@
 import { View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { SheetManager } from 'react-native-actions-sheet';
 
 import { useFeedQuery } from "../../data/feed/hooks/useFeedQuery";
 import * as Styling from '../../components/design-system/style';
 import { UserClassifier } from './UserClassifier/UserClassifier';
 import { Spinner } from '../../components/design-system/Spinner/Spinner';
 import { useClassifyMutation } from '../../data/feed/hooks/useClassifyMutation';
-import { Error } from '../../components/design-system/Error/Error';
+import { NewMatchingSheetPayload } from '../../components/sheets/NewMatching';
 
 const useStyles = Styling.createStyles(() => ({
     screen: {
@@ -16,14 +18,21 @@ const useStyles = Styling.createStyles(() => ({
 
 export function FeedScreen() {
     const styles = useStyles();
+    const navigation = useNavigation();
     const { feed, isFeedLoading } = useFeedQuery();
-    const { mutate, data } = useClassifyMutation();
+    const { mutate } = useClassifyMutation({
+        onSuccess({ matchedUserId }) {
+            if (matchedUserId) {
+                SheetManager.show<NewMatchingSheetPayload, any>('new-matching', {
+                    payload: {
+                        matchedUserId
+                    }
+                });
+            }
+        },
+    });
 
     if (isFeedLoading || !feed) return <Spinner />;
-
-    if (data?.matchedUserId) {
-        return <Error message={`you got a match with ${data.matchedUserId}`} />
-    }
 
     return (
         <View style={styles.screen}>

@@ -1,15 +1,16 @@
-import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack";
+import { createStackNavigator, StackScreenProps } from "@react-navigation/stack";
+
 import { SigninScreen } from "../../screens/auth/SigninScreen";
 import { SignupScreen } from "../../screens/auth/SignupScreen";
 
-export type AuthScreenProps<T extends keyof AuthScreensParams> = NativeStackScreenProps<AuthScreensParams, T, 'auth'>;
+export type AuthScreenProps<T extends keyof AuthScreensParams> = StackScreenProps<AuthScreensParams, T, 'auth'>;
 
 export type AuthScreensParams = {
     Signin: undefined;
     Signup: undefined;
 };
 
-const AuthStack = createNativeStackNavigator<AuthScreensParams>();
+const AuthStack = createStackNavigator<AuthScreensParams>();
 
 export function AuthNavigator() {
     return (
