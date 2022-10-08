@@ -5,13 +5,13 @@ import { Error } from '../../components/design-system/Error/Error';
 import { Button } from '../../components/design-system/Button/Button';
 import { Spinner } from '../../components/design-system/Spinner/Spinner';
 import { useUploadProfileImageMutation } from '../../data/profile/hooks/useUploadProfileImageMutation';
-import { useUserProfileQuery } from '../../data/profile/hooks/useUserProfileQuery';
+import { useGetPrivateUserProfileQuery } from '../../data/profile/hooks/useGetPrivateUserProfileQuery';
 import { useImagePicker } from '../../hooks/useImagePicker';
 import { ImageButton } from '../../components/design-system/ImageButton/ImageButton';
 import * as Styling from '../../components/design-system/style';
+import { useFadeIn } from '../../components/design-system/style/animations/useFadeIn';
 
 import defaultAvatar from '../../assets/images/favicon.png';
-import { useFadeIn } from '../../components/design-system/style/animations/useFadeIn';
 const defaultAvatarUri = Image.resolveAssetSource(defaultAvatar).uri
 
 const useStyles = Styling.createStyles(() => ({
@@ -43,12 +43,12 @@ export function ProfileScreen() {
             Toast.show(e);
         },
     });
-    const { data: userProfile, isError, isLoading: isUserProfileLoading } = useUserProfileQuery();
+    const { data: userProfile, isError, isLoading: isUserProfileLoading } = useGetPrivateUserProfileQuery();
 
     if (isUserProfileLoading) return <Spinner />;
     if (isError) return <Error message='Failed to load profile :(' />;
 
-    const savedImageUri = userProfile.result.profileImage?.url;
+    const savedImageUri = userProfile.profileImage?.url;
 
     const uri = getImageUri(savedImageUri, imagePicker.imageInfo?.uri) || defaultAvatarUri;
 

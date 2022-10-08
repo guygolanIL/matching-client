@@ -5,10 +5,10 @@ import ChatIcon from '@expo/vector-icons/Ionicons';
 import CogIcon from '@expo/vector-icons/Feather';
 
 import * as Styling from '../../components/design-system/style';
-import { FeedScreen } from '../../screens/feed/FeedScreen';
 import { ProfileScreen } from '../../screens/profile/ProfileScreen';
 import { ChatsScreen } from '../../screens/chats/ChatsScreen';
 import { SettingsScreen } from '../../screens/settings/SettingsScreen';
+import { FeedScreen } from '../../screens/feed/FeedScreen';
 
 export type AppScreensParams = {
     Feed: undefined;

@@ -1,7 +1,15 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { classify } from "../api";
+import { classify, ClassifyResponsePayload } from "../api";
 
-export function useClassifyMutation() {
-    return useMutation(classify);
+
+type UseClassifyMutationOptions = {
+    onSuccess?: (response: ClassifyResponsePayload) => void;
+}
+export function useClassifyMutation(options?: UseClassifyMutationOptions) {
+    return useMutation(classify, {
+        onSuccess(data, variables, context) {
+            options?.onSuccess?.(data)
+        },
+    });
 }

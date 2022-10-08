@@ -24,15 +24,25 @@ export async function uploadImage(requestbody: UploadImageRequestBody): Promise<
     return res.data;
 }
 
-type UserProfile = {
-    id: number
+type PrivateUserProfile = PublicUserProfile & {
+    //add private fields
+};
+type GetLoggedUserProfileResponseBody = ApiResponse<PrivateUserProfile>;
+export async function getPrivateUserProfile(): Promise<PrivateUserProfile> {
+    const url = '/profile';
+
+    const res = await httpClient.get<GetLoggedUserProfileResponseBody>(url);
+    return res.data.result;
+}
+
+type PublicUserProfile = {
     userId: number
     profileImage?: ProfileImage;
 };
-type GetUserProfileResponseBody = ApiResponse<UserProfile>;
-export async function getUserProfile(): Promise<GetUserProfileResponseBody> {
-    const url = '/profile';
+type GetPublicUserProfileResponseBody = ApiResponse<PublicUserProfile>;
+export async function getPublicUserProfile(userId: number): Promise<PublicUserProfile> {
+    const url = `/profile/${userId}`;
 
-    const res = await httpClient.get<GetUserProfileResponseBody>(url);
-    return res.data;
+    const res = await httpClient.get<GetPublicUserProfileResponseBody>(url);
+    return res.data.result;
 }
