@@ -12,7 +12,8 @@ const useStyles = Styling.createStyles(() => ({
 
 export function Spinner() {
     const styles = useStyles();
-    const color = '#7aa7c7'
+    const theme = Styling.useTheme();
+    const color = theme.palette.primary.main;
     return (
         <View style={styles.container}>
             <ActivityIndicator size='large' color={color} />

@@ -34,11 +34,9 @@ function RootNavigator() {
       id='root'
       initialRouteName={auth.loggedIn ? 'App' : 'Auth'}
     >
-      {
-        auth.loggedIn ?
-          <RootStack.Screen options={{ headerShown: false }} name="App" component={AppNavigator} />
-          : <RootStack.Screen options={{ headerShown: false }} name="Auth" component={AuthNavigator} />
-      }
+      {auth.loggedIn ?
+        <RootStack.Screen options={{ headerShown: false }} name="App" component={AppNavigator} />
+        : <RootStack.Screen options={{ headerShown: false }} name="Auth" component={AuthNavigator} />}
     </RootStack.Navigator>
   );
 }

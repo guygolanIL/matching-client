@@ -27,6 +27,7 @@ export function AppNavigator() {
             id='app'
             backBehavior='none'
             detachInactiveScreens
+            initialRouteName='Feed'
             screenOptions={{
                 unmountOnBlur: true,
                 tabBarActiveTintColor: theme.palette.primary.main,

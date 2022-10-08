@@ -1,4 +1,4 @@
-import { View, Image } from 'react-native';
+import { View, Image, Animated } from 'react-native';
 import Toast from 'react-native-root-toast';
 
 import { Error } from '../../components/design-system/Error/Error';
@@ -11,6 +11,7 @@ import { ImageButton } from '../../components/design-system/ImageButton/ImageBut
 import * as Styling from '../../components/design-system/style';
 
 import defaultAvatar from '../../assets/images/favicon.png';
+import { useFadeIn } from '../../components/design-system/style/animations/useFadeIn';
 const defaultAvatarUri = Image.resolveAssetSource(defaultAvatar).uri
 
 const useStyles = Styling.createStyles(() => ({
@@ -36,13 +37,13 @@ function getImageUri(profileImageUri: string | undefined, pickedImageUri: string
 export function ProfileScreen() {
     const styles = useStyles();
     const { mutate, isLoading } = useUploadProfileImageMutation();
+    const fadeIn = useFadeIn();
     const imagePicker = useImagePicker({
         onError(e) {
             Toast.show(e);
         },
     });
     const { data: userProfile, isError, isLoading: isUserProfileLoading } = useUserProfileQuery();
-
 
     if (isUserProfileLoading) return <Spinner />;
     if (isError) return <Error message='Failed to load profile :(' />;
@@ -53,9 +54,14 @@ export function ProfileScreen() {
 
     return (
         <View style={styles.screen}>
-            <View style={styles.imageSection}>
+            <Animated.View
+                style={{
+                    ...styles.imageSection,
+                    opacity: fadeIn
+                }}
+            >
                 <ImageButton shape='circle' uri={uri} size={[200, 200]} onPress={() => imagePicker.open()} />
-            </View>
+            </Animated.View>
 
             <View style={styles.confirmSection}>
                 <Button label={isLoading ? "Loading..." : "Confirm"} onPress={() => {

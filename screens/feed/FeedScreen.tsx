@@ -15,19 +15,18 @@ const useStyles = Styling.createStyles(() => ({
 
 export function FeedScreen() {
     const styles = useStyles();
-    const { feed, isFeedLoading, refetch } = useFeedQuery();
-    const { mutateAsync } = useClassifyMutation();
+    const { feed, isFeedLoading } = useFeedQuery();
+    const { mutate } = useClassifyMutation();
 
-    if (isFeedLoading) return <Spinner />
+    if (isFeedLoading || !feed) return <Spinner />;
 
     return (
         <View style={styles.screen}>
-            <UserClassifier users={feed || []} onClassify={async (user, attitude) => {
-                await mutateAsync({
+            <UserClassifier users={feed} onClassify={(userId, attitude) => {
+                mutate({
                     attitude,
-                    classifiedUserId: user.userId,
+                    classifiedUserId: userId,
                 });
-                refetch();
             }} />
         </View>
     );

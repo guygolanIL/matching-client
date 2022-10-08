@@ -1,4 +1,5 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
+import { AppScreensParams } from './navigation/app/AppNavigator';
 
 import { AuthScreensParams } from './navigation/auth/AuthNavigator';
 
@@ -10,5 +11,5 @@ declare global {
 
 export type RootStackParamList = {
   Auth: NavigatorScreenParams<AuthScreensParams> | undefined;
-  App: undefined;
+  App: NavigatorScreenParams<AppScreensParams> | undefined;
 };

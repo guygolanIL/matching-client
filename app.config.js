@@ -1,8 +1,11 @@
-{
-  "expo": {
+const config = {
+  expo: {
     "name": "matching-client",
     "slug": "matching-client",
     "version": "1.0.0",
+    "extra": {
+      "apiUrl": process.env.API_URL,
+    },
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -31,4 +34,6 @@
       "favicon": "./assets/images/favicon.png"
     }
   }
-}
+};
+
+module.exports = config;

@@ -5,6 +5,12 @@ export const theme = {
         primary: {
             main: '#7aa7c7'
         },
+        success: {
+            main: '#2e7d32'
+        },
+        error: {
+            main: '#d32f2f'
+        }
     },
     shape: {
         borderRadius: 10,
