@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import Constants from 'expo-constants';
 
 import * as asyncStorage from '../util/async-storage';
 import { ApiErrorResponse, ApiResponse } from './types';
@@ -18,7 +19,7 @@ export async function refresh(payload: RefreshRequest): Promise<RefreshResponse>
 }
 
 export const httpClient = axios.create({
-    baseURL: 'http://10.100.102.8:3000',
+    baseURL: Constants.expoConfig?.extra?.apiUrl,
 });
 
 async function tokenInterceptor(config: AxiosRequestConfig) {
@@ -34,6 +35,7 @@ httpClient.interceptors.response.use(
     (res) => res,
     async (err: AxiosError<ApiErrorResponse>) => {
         const originalRequest = err.config;
+        console.log(err);
         const errorMessage = err.response?.data.issues[0].message;
 
         if (errorMessage === "jwt expired" && !(originalRequest as any)._retried) {

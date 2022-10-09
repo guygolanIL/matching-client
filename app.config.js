@@ -1,6 +1,6 @@
 const config = {
   expo: {
-    "name": "matching-client",
+    "name": "Matcha",
     "slug": "matching-client",
     "version": "1.0.0",
     "extra": {
@@ -28,10 +28,12 @@ const config = {
       "supportsTablet": true
     },
     "android": {
+      "package": "com.macha.matcha",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "backgroundColor": "#ffffff", 
+      },
     },
     "web": {
       "favicon": "./assets/images/favicon.png"

@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "dev": "set API_URL=10.100.102.8:3000&expo start",
+    "dev": "set API_URL=http://10.100.102.8:3000&expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+
+    "build:apk": "eas build -p android --profile preview", 
+
     "test": "jest --watchAll"
   },
   "jest": {
