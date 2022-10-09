@@ -1,4 +1,4 @@
-import { NavigationContainer, NavigatorScreenParams, useNavigation, useNavigationContainerRef } from '@react-navigation/native';
+import { NavigationContainer, NavigatorScreenParams, useNavigationContainerRef } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useReduxDevToolsExtension } from '@react-navigation/devtools';
 import React from 'react';

@@ -60,7 +60,7 @@ export function ProfileScreen() {
                     opacity: fadeIn
                 }}
             >
-                <ImageButton shape='circle' uri={uri} size={[200, 200]} onPress={() => imagePicker.open()} />
+                <ImageButton shape='max' uri={uri} size={'large'} onPress={() => imagePicker.open()} />
             </Animated.View>
 
             <View style={styles.confirmSection}>

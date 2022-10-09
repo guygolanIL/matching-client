@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { Link } from '@react-navigation/native';
+import { Link, useNavigation } from '@react-navigation/native';
 
 import { Error } from "../../components/design-system/Error/Error";
 import { Spinner } from "../../components/design-system/Spinner/Spinner";
@@ -17,6 +17,7 @@ export function ChatsScreen() {
     const styles = useStyles();
     const { data: matches, isLoading } = useGetMatchesQuery();
     const theme = useTheme();
+    const navigation = useNavigation();
 
     if (isLoading) return <Spinner />;
 
@@ -42,7 +43,18 @@ export function ChatsScreen() {
         <View style={{ padding: 10 }}>
             {matches?.map(({ email, userId, profileImgUri }) => (
                 <View key={userId} style={styles.buttonContainer}>
-                    <MatchButton email={email} profileImageUri={profileImgUri} onPress={() => console.log(userId)} />
+                    <MatchButton
+                        email={email}
+                        profileImageUri={profileImgUri}
+                        onPress={() => navigation.navigate('App', {
+                            screen: 'Chats', params: {
+                                screen: 'Chat', params: {
+                                    userId,
+                                    profileImgUri
+                                },
+                            }
+                        })}
+                    />
                 </View>
             ))}
         </View>

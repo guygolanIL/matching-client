@@ -23,7 +23,12 @@ export const linking: LinkingOptions<RootStackParamList> = {
           Feed: 'feed',
           Profile: 'profile',
           Settings: 'settings',
-          Chats: 'chats'
+          Chats: {
+            screens: {
+              Main: 'chats',
+              Chat: 'chat'
+            }
+          }
         }
       },
     },

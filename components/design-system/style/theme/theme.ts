@@ -14,13 +14,15 @@ export const theme = {
     },
     shape: {
         borderRadius: {
-            max: 50,
+            max: 10000,
             smooth: 10
         },
     }
 } as const
 
 export type Theme = typeof theme;
+
+export type BorderRadius = keyof (typeof theme)['shape']['borderRadius'];
 
 export function useTheme(): Theme {
     return theme;

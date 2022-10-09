@@ -1,43 +1,31 @@
+import React from 'react';
 import { Image, TouchableOpacity } from 'react-native';
+import { Avatar, getImageSize, Size } from '../Avatar/Avatar';
 
 import * as Styling from '../style';
-
-function getBorderRadius(shape?: Shape): number {
-    const shapeToBorderRadius: { [key in Shape]: number } = {
-        circle: 100,
-        smooth: 30
-    }
-
-    if (!shape) return 10;
-
-    return shapeToBorderRadius[shape];
-}
+import { BorderRadius } from '../style/theme/theme';
 
 const useStyles = Styling.createStyles(({ props }: { props?: Props }) => {
-    const [width, height] = props?.size || [20, 20];
+    const sizeNumber = getImageSize(props?.size || 'large');
     return ({
         imagebutton: {
-            width,
-            height,
+            width: sizeNumber,
+            height: sizeNumber,
         },
     });
 });
-type Shape = 'circle' | 'smooth';
-type Size = [number, number];
 export type Props = {
     uri: string;
     size: Size;
-    shape?: Shape;
+    shape?: BorderRadius;
     onPress?: () => void;
 };
 export function ImageButton(props: Props) {
-    const [width, height] = props.size;
     const styles = useStyles(props);
-    const borderRadius: number = getBorderRadius(props.shape);
 
     return (
         <TouchableOpacity style={styles.imagebutton} onPress={props.onPress}>
-            <Image source={{ uri: props.uri }} style={{ width, height, borderRadius }} />
+            <Avatar uri={props.uri} radius={props.shape} size={props.size} />
         </TouchableOpacity>
     );
 }

@@ -6,14 +6,15 @@ import CogIcon from '@expo/vector-icons/Feather';
 
 import * as Styling from '../../components/design-system/style';
 import { ProfileScreen } from '../../screens/profile/ProfileScreen';
-import { ChatsScreen } from '../../screens/chats/ChatsScreen';
 import { SettingsScreen } from '../../screens/settings/SettingsScreen';
 import { FeedScreen } from '../../screens/feed/FeedScreen';
+import { ChatNavigator, ChatsScreensParams } from './chat/ChatNavigator';
+import { NavigatorScreenParams } from '@react-navigation/native';
 
 export type AppScreensParams = {
     Feed: undefined;
     Profile: undefined;
-    Chats: undefined;
+    Chats: NavigatorScreenParams<ChatsScreensParams>;
     Settings: undefined;
 };
 const AppBottomTabs = createBottomTabNavigator<AppScreensParams>();
@@ -25,11 +26,10 @@ export function AppNavigator() {
     return (
         <AppBottomTabs.Navigator
             id='app'
-            backBehavior='none'
-            detachInactiveScreens
             initialRouteName='Feed'
+            backBehavior='history'
             screenOptions={{
-                unmountOnBlur: true,
+                tabBarShowLabel: false,
                 tabBarActiveTintColor: theme.palette.primary.main,
             }}
         >
@@ -37,7 +37,6 @@ export function AppNavigator() {
                 name='Feed'
                 component={FeedScreen}
                 options={{
-                    tabBarShowLabel: false,
                     tabBarIcon: ({ color }) => <StackIcon name="stack" size={32} color={color} />
                 }}
             />
@@ -46,16 +45,15 @@ export function AppNavigator() {
                 name='Profile'
                 component={ProfileScreen}
                 options={{
-                    tabBarShowLabel: false,
                     tabBarIcon: ({ color }) => <ProfileIcon name="profile" size={32} color={color} />
                 }}
             />
 
             <AppBottomTabs.Screen
                 name='Chats'
-                component={ChatsScreen}
+                component={ChatNavigator}
                 options={{
-                    tabBarShowLabel: false,
+                    headerShown: false,
                     tabBarIcon: ({ color }) => <ChatIcon name="chatbubble-ellipses-outline" size={32} color={color} />
                 }}
             />
@@ -64,7 +62,6 @@ export function AppNavigator() {
                 name='Settings'
                 component={SettingsScreen}
                 options={{
-                    tabBarShowLabel: false,
                     tabBarIcon: ({ color }) => <CogIcon name="settings" size={32} color={color} />
                 }}
             />
