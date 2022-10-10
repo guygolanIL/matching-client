@@ -15,6 +15,7 @@ export const theme = {
     shape: {
         borderRadius: {
             max: 10000,
+            hard: 50,
             smooth: 10
         },
     }

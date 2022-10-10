@@ -1,4 +1,5 @@
 import { Image, ImageStyle } from "react-native";
+
 import { useTheme } from "../style";
 import { BorderRadius, createStyles } from "../style/theme/theme";
 
@@ -21,9 +22,9 @@ export type Props = {
     imageStyle?: ImageStyle;
 };
 
-const useStyles = createStyles(() => ({
+const useStyles = createStyles(({ theme }) => ({
     image: {
-        borderColor: 'black',
+        borderColor: theme.palette.primary.main,
         borderWidth: 1,
     }
 }));

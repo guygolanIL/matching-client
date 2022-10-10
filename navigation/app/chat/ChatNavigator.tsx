@@ -1,8 +1,8 @@
 import { createStackNavigator, StackScreenProps } from '@react-navigation/stack';
-import { Image, Text } from 'react-native';
 
+import { Avatar } from '../../../components/design-system/Avatar/Avatar';
 import * as Styling from '../../../components/design-system/style';
-import { ChatScreen } from '../../../screens/chats/ChatScreen';
+import { ChatScreen } from '../../../screens/chats/ChatScreen/ChatScreen';
 import { ChatsScreen } from '../../../screens/chats/ChatsScreen';
 
 export type ChatsScreensParams = {
@@ -31,7 +31,7 @@ export function ChatNavigator() {
             <ChatStack.Screen
                 name='Chat'
                 options={({ route }) => ({
-                    headerTitle: (props) => (<Image source={{ uri: route.params.profileImgUri }} style={{ width: 50, height: 50, borderRadius: 50, marginLeft: -20 }} />),
+                    headerTitle: (props) => (<Avatar size='small' uri={route.params.profileImgUri} radius='max' imageStyle={{ marginLeft: -10 }} />),
                 })}
                 component={ChatScreen}
             />

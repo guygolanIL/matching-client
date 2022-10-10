@@ -16,11 +16,12 @@ const useStyles = Styling.createStyles(() => ({
 type FormTextFieldProps = {} & TextInputProps;
 export function FormTextField(props: FormTextFieldProps) {
     const styles = useStyles();
+    const theme = Styling.useTheme();
     return (
         <TextInput
             {...props}
             style={styles.input}
-            selectionColor={'#7aa7c7'}
+            selectionColor={theme.palette.primary.main}
         />
     );
 }
