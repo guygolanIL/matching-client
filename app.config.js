@@ -5,6 +5,7 @@ const config = {
     "version": "1.0.0",
     "extra": {
       "apiUrl": process.env.API_URL,
+      "socketUrl": process.env.SOCKET_URL,
       "eas": {
         "projectId": "6490c655-3f4c-4660-8e88-f095dd399045"
       }

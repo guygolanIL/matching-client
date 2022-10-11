@@ -2,6 +2,7 @@ import { Buffer } from 'buffer';
 
 type JwtPayload = {
     email: string,
+    userId: number;
     iat: number,
     exp: number
 };

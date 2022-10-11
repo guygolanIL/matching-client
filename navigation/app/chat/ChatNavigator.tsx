@@ -1,14 +1,15 @@
 import { createStackNavigator, StackScreenProps } from '@react-navigation/stack';
 
 import { Avatar } from '../../../components/design-system/Avatar/Avatar';
-import * as Styling from '../../../components/design-system/style';
+import { PublicProfileInfo } from '../../../data/feed/api';
 import { ChatScreen } from '../../../screens/chats/ChatScreen/ChatScreen';
 import { ChatsScreen } from '../../../screens/chats/ChatsScreen';
 
 export type ChatsScreensParams = {
     Main: undefined;
     Chat: {
-        userId: number,
+        matchedWith: PublicProfileInfo;
+        matchId: number;
         profileImgUri: string;
     };
 };
@@ -17,7 +18,6 @@ const ChatStack = createStackNavigator<ChatsScreensParams>();
 export type ChatsScreenProps<Screen extends keyof ChatsScreensParams> = StackScreenProps<ChatsScreensParams, Screen, 'chat'>;
 
 export function ChatNavigator() {
-    const theme = Styling.useTheme();
     return (
         <ChatStack.Navigator
             id='chat'

@@ -7,7 +7,8 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "API_URL": "http://10.100.102.8:3000"
+        "API_URL": "http://10.100.102.8:3000",
+        "SOCKET_URL": "ws://10.100.102.8:3000"
       }
     },
     "preview": {
@@ -15,12 +16,14 @@
         "buildType": "apk"  
       },
       "env": {
-        "API_URL": "https://matching-app.up.railway.app"
+        "API_URL": "https://matching-app.up.railway.app",
+        "SOCKET_URL": "ws://matching-app.up.railway.app"
       }
     },
     "production": {
       "env": {
-        "API_URL": "https://matching-app.up.railway.app"
+        "API_URL": "https://matching-app.up.railway.app",
+        "SOCKET_URL": "ws://matching-app.up.railway.app"
       }
     }
   },

@@ -28,8 +28,11 @@ const useStyles = Styling.createStyles(({ theme, props }: { theme: Styling.Theme
         justifyContent: 'center',
         alignItems: 'center'
     }
-}))
-export function ChatInputSection() {
+}));
+type Props = {
+    onSendMessage: (content: string) => void;
+}
+export function ChatInputSection(props: Props) {
     const dimensions = useWindowDimensions();
     const styles = useStyles({ screenWidth: dimensions.width, screenHeight: dimensions.height });
     const theme = Styling.useTheme();
@@ -40,6 +43,7 @@ export function ChatInputSection() {
         <View style={styles.inputSection}>
             <View style={styles.inputGroup}>
                 <TextInput
+                    value={inputValue}
                     onChange={(e) => setInputValue(e.nativeEvent.text)}
                     style={styles.textInput}
                     selectionColor={theme.palette.primary.main}
@@ -47,7 +51,12 @@ export function ChatInputSection() {
                 />
             </View>
             <View style={styles.sendButtonContainer}>
-                <SendButton />
+                <SendButton onPress={() => {
+                    if (!inputValue) return;
+                    props.onSendMessage(inputValue);
+                    setInputValue(undefined);
+                }}
+                />
             </View>
         </View>
     );

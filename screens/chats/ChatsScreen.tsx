@@ -3,7 +3,7 @@ import { Link, useNavigation } from '@react-navigation/native';
 
 import { Error } from "../../components/design-system/Error/Error";
 import { Spinner } from "../../components/design-system/Spinner/Spinner";
-import { useGetMatchesQuery } from "../../data/chat/useGetMatchesQuery";
+import { useGetMatchesQuery } from "../../data/chat/hooks/useGetMatchesQuery";
 import { useTheme } from "../../components/design-system/style";
 import { MatchButton } from "./MatchButton";
 import * as Styling from '../../components/design-system/style';
@@ -41,16 +41,17 @@ export function ChatsScreen() {
 
     return (
         <View style={{ padding: 10 }}>
-            {matches?.map(({ email, userId, profileImgUri }) => (
-                <View key={userId} style={styles.buttonContainer}>
+            {matches?.map(({ id, matchedWith }) => (
+                <View key={id} style={styles.buttonContainer}>
                     <MatchButton
-                        email={email}
-                        profileImageUri={profileImgUri}
+                        label={matchedWith.userId.toString()}
+                        imageUri={matchedWith.profileImage.url}
                         onPress={() => navigation.navigate('App', {
                             screen: 'Chats', params: {
                                 screen: 'Chat', params: {
-                                    userId,
-                                    profileImgUri
+                                    matchedWith,
+                                    matchId: id,
+                                    profileImgUri: matchedWith.profileImage.url
                                 },
                             }
                         })}

@@ -11,6 +11,7 @@ import { useLocation } from '../../hooks/useLocation';
 import { Spinner } from '../../components/design-system/Spinner/Spinner';
 import { Error } from '../../components/design-system/Error/Error';
 import * as Styling from '../../components/design-system/style';
+import { useNavigation } from '@react-navigation/native';
 
 const useStyles = Styling.createStyles(() => ({
   container: {
@@ -30,7 +31,8 @@ const useStyles = Styling.createStyles(() => ({
   },
 }));
 
-export function SigninScreen({ navigation }: AuthScreenProps<'Signin'>) {
+export function SigninScreen() {
+  const navigation = useNavigation();
   const styles = useStyles();
   const { signIn: {
     isLoading,
@@ -83,9 +85,9 @@ export function SigninScreen({ navigation }: AuthScreenProps<'Signin'>) {
             password: values.password,
             latitude: location?.coords.latitude || 0,
             longitude: location?.coords.longitude || 0
-          }, () => navigation.getParent('auth')?.navigate('App'));
+          });
         }} />
-      <ClickableText onPress={() => navigation.navigate('Signup')}>Not signed up? Sign up!</ClickableText>
+      <ClickableText onPress={() => navigation.navigate('Auth', { screen: 'Signup' })}>Not signed up? Sign up!</ClickableText>
 
     </View>
   );

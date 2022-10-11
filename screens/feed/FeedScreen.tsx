@@ -1,5 +1,4 @@
 import { View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { SheetManager } from 'react-native-actions-sheet';
 
 import { useFeedQuery } from "../../data/feed/hooks/useFeedQuery";
@@ -18,7 +17,6 @@ const useStyles = Styling.createStyles(() => ({
 
 export function FeedScreen() {
     const styles = useStyles();
-    const navigation = useNavigation();
     const { feed, isFeedLoading } = useFeedQuery();
     const { mutate } = useClassifyMutation({
         onSuccess({ matchedUserId }) {

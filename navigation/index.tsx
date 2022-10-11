@@ -42,14 +42,14 @@ export default function Navigation() {
 const RootStack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  const { userEmail } = useAuth();
+  const { userId } = useAuth();
 
   return (
     <RootStack.Navigator
       id='root'
-      initialRouteName={userEmail ? 'App' : 'Auth'}
+      initialRouteName={userId ? 'App' : 'Auth'}
     >
-      {userEmail ?
+      {userId ?
         <RootStack.Screen options={{ headerShown: false }} name="App" component={AppNavigator} />
         : <RootStack.Screen options={{ headerShown: false }} name="Auth" component={AuthNavigator} />}
 

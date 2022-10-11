@@ -9,13 +9,13 @@ import { login, LoginRequestPayload, logout, register, RegisterRequestPayload } 
 import { jwt } from '../util/jwt';
 
 type IAuthContext = {
-    userEmail?: string,
+    userId?: number,
     signIn: {
-        mutate: (payload: LoginRequestPayload, cb: () => void) => void;
+        mutate: (payload: LoginRequestPayload, cb?: () => void) => void;
         isLoading: boolean;
     },
     signUp: {
-        mutate: (payload: RegisterRequestPayload, cb: () => void) => void;
+        mutate: (payload: RegisterRequestPayload, cb?: () => void) => void;
         isLoading: boolean;
     },
     signOut: {
@@ -65,20 +65,20 @@ export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string
         },
     });
 
-    function signIn(payload: LoginRequestPayload, cb: () => void) {
+    function signIn(payload: LoginRequestPayload, cb?: () => void) {
         loginMutation(payload, {
             onSuccess: (data) => {
                 updateUserToken(data.result.accessToken);
                 updateRefreshToken(data.result.refreshToken);
-                cb();
+                cb?.();
             }
         });
     }
 
-    function signUp(payload: RegisterRequestPayload, cb: () => void) {
+    function signUp(payload: RegisterRequestPayload, cb?: () => void) {
         registerMutation(payload, {
             onSuccess(data, variables, context) {
-                cb();
+                cb?.();
             },
         })
     }
@@ -94,11 +94,11 @@ export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string
         });
     }
 
-    const userEmail = jwt.extractPayload(userToken)?.email;
+    const userId = jwt.extractPayload(userToken)?.userId;
 
     return (
         <AuthContext.Provider value={{
-            userEmail,
+            userId,
             signIn: {
                 isLoading: isLoginLoading,
                 mutate: signIn,

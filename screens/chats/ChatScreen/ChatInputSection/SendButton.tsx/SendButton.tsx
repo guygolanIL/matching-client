@@ -14,10 +14,10 @@ const useStyles = Styling.createStyles(({ theme }) => ({
     }
 }));
 
-export function SendButton() {
+export function SendButton(props: { onPress?: () => void }) {
     const styles = useStyles();
     return (
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={props.onPress}>
             <SendIcon name="send" size={18} color="white" />
         </TouchableOpacity>
     );

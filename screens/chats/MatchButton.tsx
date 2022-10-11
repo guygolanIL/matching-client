@@ -4,8 +4,8 @@ import { TouchableOpacity, Image, Text } from 'react-native';
 import { Avatar } from '../../components/design-system/Avatar/Avatar';
 import * as Styling from '../../components/design-system/style';
 type Props = {
-    profileImageUri: string;
-    email: string;
+    imageUri: string;
+    label: string;
     onPress: () => void;
 }
 const useStyles = Styling.createStyles(({ theme }) => ({
@@ -27,8 +27,8 @@ export function MatchButton(props: Props) {
             style={styles.container}
             onPress={props.onPress}
         >
-            <Avatar uri={props.profileImageUri} size='medium' radius='max' imageStyle={styles.image} />
-            <Text>{props.email}</Text>
+            <Avatar uri={props.imageUri} size='medium' radius='max' imageStyle={styles.image} />
+            <Text>{props.label}</Text>
         </TouchableOpacity>
     );
 }

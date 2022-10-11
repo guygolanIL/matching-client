@@ -2,23 +2,19 @@ import React, { useEffect } from 'react';
 import { View, Image } from 'react-native';
 
 import * as Styling from '../../../components/design-system/style';
-import { Attitude } from '../../../data/feed/api';
+import { Attitude, PublicProfileInfo } from '../../../data/feed/api';
 import { ImageStack } from './ImageStack/ImageStack';
 
 import defaultAvatar from '../../../assets/images/favicon.png';
 const defaultAvatarUri = Image.resolveAssetSource(defaultAvatar).uri
 
-type Subject = {
-    profileImgUri: string;
-    userId: number;
-}
 const useStyles = Styling.createStyles(() => ({
     classifier: {
         flex: 1
     },
 }));
 export type Props = {
-    users: Array<Subject>;
+    users: Array<PublicProfileInfo>;
     onClassify: (userId: number, attitude: Attitude) => void;
 };
 
@@ -31,7 +27,7 @@ export function UserClassifier(props: Props) {
             <ImageStack
                 stack={users.map(user => ({
                     id: user.userId,
-                    uri: user.profileImgUri || defaultAvatarUri
+                    uri: user.profileImage.url || defaultAvatarUri
                 }))}
                 onImageSlided={(id: number, direction: 'right' | 'left') => onClassify(id, direction === 'right' ? 'POSITIVE' : "NEGATIVE")}
             />

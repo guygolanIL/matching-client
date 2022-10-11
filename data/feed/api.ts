@@ -1,9 +1,13 @@
 import { httpClient } from '../http-client';
 import { ApiResponse } from '../types';
 
+type ProfileImage = {
+    url: string;
+}
+
 export type PublicProfileInfo = {
     userId: number;
-    profileImgUri: string;
+    profileImage: ProfileImage;
 }
 
 export type FeedResponse = ApiResponse<Array<PublicProfileInfo>>;
