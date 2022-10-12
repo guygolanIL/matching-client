@@ -43,7 +43,7 @@ export function ChatScreen(props: ChatsScreenProps<'Chat'>) {
             <ChatInputSection
                 onSendMessage={(content) => {
                     sendMessage(content);
-                    if (listRef.current?.context) {
+                    if (messages?.length !== 0) {
                         listRef.current?.scrollToIndex({ animated: true, index: 0 });
                     }
                 }}
