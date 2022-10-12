@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 
 export const theme = {
@@ -18,6 +19,16 @@ export const theme = {
             hard: 50,
             smooth: 10
         },
+    },
+    shadows: {
+        elevation: 4,
+        shadowColor: '#000000',
+        shadowOffset: {
+            width: 0,
+            height: 3
+        },
+        shadowRadius: 5,
+        shadowOpacity: 1.0
     }
 } as const
 
@@ -40,6 +51,11 @@ export function createStyles<T extends StyleSheet.NamedStyles<T> | StyleSheet.Na
 
     return function useStyles(props?: P): T {
         const theme = useTheme();
-        return StyleSheet.create(creator({ theme, props }));
+
+        const styles = useMemo(() => (
+            StyleSheet.create(creator({ theme, props }))
+        ), [theme, props]);
+
+        return styles;
     }
 }

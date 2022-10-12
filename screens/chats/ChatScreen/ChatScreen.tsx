@@ -1,13 +1,12 @@
-import { FlatList, View, Text } from 'react-native'
+import { FlatList, View, Text, ListRenderItem } from 'react-native'
 
 import { ChatsScreenProps } from "../../../navigation/app/chat/ChatNavigator";
 import * as Styling from '../../../components/design-system/style';
 import { ChatInputSection } from './ChatInputSection/ChatInputSection';
 import { useChat } from '../useChat';
-import { useCreateMessageMutation } from '../../../data/chat/hooks/useCreateMessageMutation';
-import { useGetMessagesQuery } from '../../../data/chat/hooks/useGetMessagesQuery';
-import { useAuth } from '../../../contexts/auth';
-import { byDate } from '../../../util/sort';
+import { ChatMessage } from './ChatMessage/ChatMessage';
+import { useCallback, useRef } from 'react';
+import { Message } from '../../../data/chat/api';
 
 const useStyles = Styling.createStyles(() => ({
     container: {
@@ -18,40 +17,35 @@ const useStyles = Styling.createStyles(() => ({
 export function ChatScreen(props: ChatsScreenProps<'Chat'>) {
     const { matchId, matchedWith } = props.route.params;
     const styles = useStyles();
-    const { userId } = useAuth();
-    const { mutate } = useCreateMessageMutation(userId!);
-    const { data, refetch } = useGetMessagesQuery(matchId);
-    const { isConnected } = useChat({
-        onNewMessage() {
-            refetch();
-        },
-    });
+    const listRef = useRef<FlatList<Message>>(null);
 
-    const sortedData = data?.sort(byDate('desc', message => new Date(message.createdAt)));
+    const { messages, sendMessage } = useChat(matchId);
+
+    const renderItem: ListRenderItem<Message> = useCallback(({ item }) => {
+        if (item.createdByUserId === matchedWith.userId) {
+            return <ChatMessage text={item.content} timestamp={item.createdAt} invert />;
+        }
+        return <ChatMessage text={item.content} timestamp={item.createdAt} />;
+
+    }, []);
+
+    const keyExtractor = useCallback((item: Message) => item.id.toString(), []);
 
     return (
         <View style={styles.container}>
-            <Text>{isConnected}</Text>
             <FlatList
+                ref={listRef}
                 inverted
-                data={sortedData || []}
-                renderItem={({ item }) => {
-                    if (item.createdByUserId === matchedWith.userId) {
-                        return <View style={{ backgroundColor: 'red', padding: 20 }}><Text>Him at {item.createdAt}: {item.content}</Text></View>;
-                    }
-
-                    return <View style={{ backgroundColor: 'blue', padding: 20 }}><Text>You at {item.createdAt}: {item.content}</Text></View>
-                }}
-                keyExtractor={(item) => item.id.toString()}
+                data={messages || []}
+                renderItem={renderItem}
+                keyExtractor={keyExtractor}
             />
             <ChatInputSection
                 onSendMessage={(content) => {
-                    mutate({
-                        matchId,
-                        payload: {
-                            content
-                        }
-                    });
+                    sendMessage(content);
+                    if (listRef.current?.context) {
+                        listRef.current?.scrollToIndex({ animated: true, index: 0 });
+                    }
                 }}
             />
         </View>

@@ -29,6 +29,9 @@ export function AppNavigator() {
             initialRouteName='Feed'
             backBehavior='history'
             screenOptions={{
+                headerStyle: {
+                    ...theme.shadows
+                },
                 tabBarShowLabel: false,
                 tabBarActiveTintColor: theme.palette.primary.main,
             }}

@@ -29,7 +29,6 @@ export function useSocketConnection(options?: ServerToClientEvents) {
         });
 
         socket.on('disconnect', () => {
-            console.log('client disconn');
             setIsConnected(false);
         });
 

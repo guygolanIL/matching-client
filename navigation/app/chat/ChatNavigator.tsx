@@ -1,6 +1,7 @@
 import { createStackNavigator, StackScreenProps } from '@react-navigation/stack';
 
 import { Avatar } from '../../../components/design-system/Avatar/Avatar';
+import { theme } from '../../../components/design-system/style';
 import { PublicProfileInfo } from '../../../data/feed/api';
 import { ChatScreen } from '../../../screens/chats/ChatScreen/ChatScreen';
 import { ChatsScreen } from '../../../screens/chats/ChatsScreen';
@@ -22,9 +23,17 @@ export function ChatNavigator() {
         <ChatStack.Navigator
             id='chat'
             initialRouteName='Main'
+            screenOptions={{
+                headerStyle: {
+                    ...theme.shadows,
+                }
+            }}
         >
             <ChatStack.Screen
                 name='Main'
+                options={{
+                    headerTitle: 'Your matches',
+                }}
                 component={ChatsScreen}
             />
 

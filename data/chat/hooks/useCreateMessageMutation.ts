@@ -15,6 +15,7 @@ export function useCreateMessageMutation(userId: number) {
                     content: payload.content,
                     id: Math.random(),
                     createdByUserId: userId,
+                    createdAt: new Date().toString(),
                     matchId
                 }
                 return old ? [...old, newMessage] : [newMessage];
