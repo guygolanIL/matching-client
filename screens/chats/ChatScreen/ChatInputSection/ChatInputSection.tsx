@@ -6,25 +6,26 @@ import { SendButton } from './SendButton.tsx/SendButton';
 
 const useStyles = Styling.createStyles(({ theme, props }: { theme: Styling.Theme; props?: { screenWidth: number, screenHeight: number } }) => ({
     inputSection: {
-        marginTop: 'auto',
+        marginBottom: 5,
         backgroundColor: 'transparent',
         flexDirection: 'row',
+        justifyContent: 'flex-end',
         width: '100%',
     },
     inputGroup: {
-        width: props?.screenWidth ? props.screenWidth * 0.85 : '85%',
         height: '100%',
         borderRadius: theme.shape.borderRadius.hard,
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: 'white'
+        flex: 1,
+        backgroundColor: 'white',
+        paddingHorizontal: 10,
     },
     textInput: {
         width: '100%',
-        marginLeft: 15
     },
     sendButtonContainer: {
-        width: props?.screenWidth ? props.screenWidth * 0.15 : '15%',
+        marginHorizontal: 5,
         justifyContent: 'center',
         alignItems: 'center'
     }
