@@ -1,4 +1,4 @@
-import { FlatList, View, Text, ListRenderItem } from 'react-native'
+import { FlatList, View, ListRenderItem } from 'react-native'
 
 import { ChatsScreenProps } from "../../../navigation/app/chat/ChatNavigator";
 import * as Styling from '../../../components/design-system/style';
@@ -17,16 +17,16 @@ const useStyles = Styling.createStyles(() => ({
 export function ChatScreen(props: ChatsScreenProps<'Chat'>) {
     const { matchId, matchedWith } = props.route.params;
     const styles = useStyles();
+    const theme = Styling.useTheme();
     const listRef = useRef<FlatList<Message>>(null);
 
     const { messages, sendMessage } = useChat(matchId);
 
     const renderItem: ListRenderItem<Message> = useCallback(({ item }) => {
         if (item.createdByUserId === matchedWith.userId) {
-            return <ChatMessage text={item.content} timestamp={item.createdAt} invert />;
+            return <ChatMessage text={item.content} timestamp={item.createdAt} color={theme.palette.primary.light} invert />;
         }
         return <ChatMessage text={item.content} timestamp={item.createdAt} />;
-
     }, []);
 
     const keyExtractor = useCallback((item: Message) => item.id.toString(), []);

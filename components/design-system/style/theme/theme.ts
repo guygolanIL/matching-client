@@ -1,10 +1,12 @@
 import { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 
-export const theme = {
+const theme = {
     palette: {
         primary: {
-            main: '#7aa7c7'
+            main: '#7aa7c7',
+            light: '#bdd3e3',
+
         },
         success: {
             main: '#2e7d32'

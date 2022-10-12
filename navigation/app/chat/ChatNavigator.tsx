@@ -1,7 +1,7 @@
 import { createStackNavigator, StackScreenProps } from '@react-navigation/stack';
 
 import { Avatar } from '../../../components/design-system/Avatar/Avatar';
-import { theme } from '../../../components/design-system/style';
+import { useTheme } from '../../../components/design-system/style';
 import { PublicProfileInfo } from '../../../data/feed/api';
 import { ChatScreen } from '../../../screens/chats/ChatScreen/ChatScreen';
 import { ChatsScreen } from '../../../screens/chats/ChatsScreen';
@@ -19,6 +19,7 @@ const ChatStack = createStackNavigator<ChatsScreensParams>();
 export type ChatsScreenProps<Screen extends keyof ChatsScreensParams> = StackScreenProps<ChatsScreensParams, Screen, 'chat'>;
 
 export function ChatNavigator() {
+    const theme = useTheme();
     return (
         <ChatStack.Navigator
             id='chat'

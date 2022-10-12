@@ -1,1 +1,1 @@
-export { useTheme, createStyles, theme, Theme } from './theme/theme';
+export { useTheme, createStyles, Theme } from './theme/theme';
