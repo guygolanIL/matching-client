@@ -60,6 +60,11 @@ export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string
         },
     });
     const { mutate: logoutMutation, isLoading: isLogoutLoading } = useMutation(logout, {
+        onSettled(data, error, variables, context) {
+            eraseUserToken();
+            eraseRefreshToken();
+            queryClient.clear();
+        },
         onError(error: AxiosError<ApiErrorResponse>) {
             Toast.show(error.response?.data?.issues[0]?.message || 'Failed to log out');
         },
@@ -86,10 +91,7 @@ export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string
     function signOut(cb?: () => void) {
         logoutMutation(undefined, {
             onSuccess(data, variables, context) {
-                eraseUserToken();
-                eraseRefreshToken();
-                cb?.();
-                queryClient.clear();
+
             },
         });
     }

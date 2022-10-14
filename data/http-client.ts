@@ -36,7 +36,7 @@ httpClient.interceptors.response.use(
     async (err: AxiosError<ApiErrorResponse>) => {
         const originalRequest = err.config;
         console.log(err);
-        const errorMessage = err.response?.data.issues[0].message;
+        const errorMessage = err.response?.data?.issues[0].message;
 
         if (errorMessage === "jwt expired" && !(originalRequest as any)._retried) {
             (originalRequest as any)._retried = true
