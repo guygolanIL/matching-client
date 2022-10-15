@@ -7,7 +7,7 @@ type ProfileImage = {
 
 export type PublicProfileInfo = {
     userId: number;
-    profileImage: ProfileImage;
+    profileImage?: ProfileImage;
 }
 
 export type FeedResponse = ApiResponse<Array<PublicProfileInfo>>;

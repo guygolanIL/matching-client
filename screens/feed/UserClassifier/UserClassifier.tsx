@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, Image } from 'react-native';
 
 import * as Styling from '../../../components/design-system/style';
@@ -21,13 +21,13 @@ export type Props = {
 export function UserClassifier(props: Props) {
     const styles = useStyles();
     const { onClassify, users } = props;
-
+    console.log(users);
     return (
         <View style={styles.classifier}>
             <ImageStack
                 stack={users.map(user => ({
                     id: user.userId,
-                    uri: user.profileImage.url || defaultAvatarUri
+                    uri: user.profileImage?.url || defaultAvatarUri
                 }))}
                 onImageSlided={(id: number, direction: 'right' | 'left') => onClassify(id, direction === 'right' ? 'POSITIVE' : "NEGATIVE")}
             />
