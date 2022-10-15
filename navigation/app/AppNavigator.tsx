@@ -32,7 +32,6 @@ export function AppNavigator() {
                 headerStyle: {
                     ...theme.shadows
                 },
-                tabBarShowLabel: false,
                 tabBarActiveTintColor: theme.palette.primary.main,
             }}
         >

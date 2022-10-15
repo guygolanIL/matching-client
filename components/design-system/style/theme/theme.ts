@@ -4,8 +4,8 @@ import { StyleSheet } from 'react-native';
 const theme = {
     palette: {
         primary: {
-            main: '#7aa7c7',
-            light: '#bdd3e3',
+            main: '#aacf80',
+            light: '#ddeccc',
 
         },
         success: {
