@@ -10,9 +10,7 @@ import { useImagePicker } from '../../hooks/useImagePicker';
 import { ImageButton } from '../../components/design-system/ImageButton/ImageButton';
 import * as Styling from '../../components/design-system/style';
 import { useFadeIn } from '../../components/design-system/style/animations/useFadeIn';
-
-import defaultAvatar from '../../assets/images/favicon.png';
-const defaultAvatarUri = Image.resolveAssetSource(defaultAvatar).uri
+import { withDefaultProfileImage } from '../../util/image';
 
 const useStyles = Styling.createStyles(() => ({
     screen: {
@@ -50,7 +48,7 @@ export function ProfileScreen() {
 
     const savedImageUri = userProfile.profileImage?.url;
 
-    const uri = getImageUri(savedImageUri, imagePicker.imageInfo?.uri) || defaultAvatarUri;
+    const uri = withDefaultProfileImage(getImageUri(savedImageUri, imagePicker.imageInfo?.uri));
 
     return (
         <View style={styles.screen}>

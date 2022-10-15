@@ -7,6 +7,7 @@ import { useGetMatchesQuery } from "../../data/chat/hooks/useGetMatchesQuery";
 import { useTheme } from "../../components/design-system/style";
 import { MatchButton } from "./MatchButton";
 import * as Styling from '../../components/design-system/style';
+import { withDefaultProfileImage } from "../../util/image";
 
 const useStyles = Styling.createStyles(() => ({
     buttonContainer: {
@@ -41,23 +42,26 @@ export function ChatsScreen() {
 
     return (
         <View style={{ padding: 10 }}>
-            {matches?.map(({ id, matchedWith }) => (
-                <View key={id} style={styles.buttonContainer}>
-                    <MatchButton
-                        label={matchedWith.userId.toString()}
-                        imageUri={matchedWith.profileImage.url}
-                        onPress={() => navigation.navigate('App', {
-                            screen: 'Chats', params: {
-                                screen: 'Chat', params: {
-                                    matchedWith,
-                                    matchId: id,
-                                    profileImgUri: matchedWith.profileImage.url
-                                },
-                            }
-                        })}
-                    />
-                </View>
-            ))}
+            {matches?.map(({ id, matchedWith }) => {
+                const imageUri = withDefaultProfileImage(matchedWith.profileImage?.url);
+                return (
+                    <View key={id} style={styles.buttonContainer}>
+                        <MatchButton
+                            label={matchedWith.userId.toString()}
+                            imageUri={imageUri}
+                            onPress={() => navigation.navigate('App', {
+                                screen: 'Chats', params: {
+                                    screen: 'Chat', params: {
+                                        matchedWith,
+                                        matchId: id,
+                                        profileImgUri: imageUri,
+                                    },
+                                }
+                            })}
+                        />
+                    </View>
+                );
+            })}
         </View>
     );
 }
