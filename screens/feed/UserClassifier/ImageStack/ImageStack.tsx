@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Animated, PanResponder, useWindowDimensions, ViewStyle } from 'react-native';
 import AttitudeIcon from '@expo/vector-icons/AntDesign';
 
@@ -114,8 +114,6 @@ export function ImageStack(props: Props) {
         </Animated.View>
     );
     const twoItems = [...stack].splice(currentImage, 2);
-
-
 
     return (
         <Animated.View

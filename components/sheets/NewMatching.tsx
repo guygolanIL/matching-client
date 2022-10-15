@@ -50,7 +50,10 @@ export function NewMatching(props: SheetProps) {
                             label='Go to chats'
                             onPress={() => {
                                 navigation.navigate('App', {
-                                    screen: 'Chats'
+                                    screen: 'Chats',
+                                    params: {
+                                        screen: 'Main'
+                                    }
                                 });
                                 SheetManager.hideAll()
                             }}
