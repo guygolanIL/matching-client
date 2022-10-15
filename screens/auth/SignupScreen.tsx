@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Text, View } from 'react-native';
 
 import { Button } from '../../components/design-system/Button/Button';
@@ -9,6 +9,8 @@ import { useFormValues } from '../../hooks/useFormValues';
 import { AuthScreenProps } from '../../navigation/auth/AuthNavigator';
 import { AuthFormFields } from './types';
 import * as Styling from '../../components/design-system/style';
+import { RegisterRequestPayload } from '../../data/auth/api';
+import { TextInput } from 'react-native-gesture-handler';
 
 const useStyles = Styling.createStyles(() => ({
   container: {
@@ -35,10 +37,19 @@ export function SignupScreen({ navigation }: AuthScreenProps<'Signup'>) {
     mutate
   } } = useAuth();
 
-  const { values, change } = useFormValues<AuthFormFields>({
+  const passwordRef = useRef<TextInput>(null);
+  const confirmPasswordRef = useRef<TextInput>(null);
+
+  const { values, change } = useFormValues<RegisterRequestPayload>({
     email: '',
-    password: ''
+    password: '',
+    confirmPassword: '',
   });
+
+  const submitHandler = () => mutate(
+    { email: values.email, password: values.password, confirmPassword: values.confirmPassword },
+    () => navigation.navigate('Signin')
+  );
 
   return (
     <View style={styles.container}>
@@ -46,26 +57,39 @@ export function SignupScreen({ navigation }: AuthScreenProps<'Signup'>) {
       <View style={styles.separator} />
 
       <FormTextField
+        returnKeyType='next'
+        blurOnSubmit={false}
+        onSubmitEditing={() => passwordRef.current?.focus()}
         keyboardType="email-address"
         placeholder='Email'
         onChange={e => change('email', e.nativeEvent.text)}
       />
 
       <FormTextField
+        ref={passwordRef}
+
+        returnKeyType='next'
+        blurOnSubmit={false}
+        onSubmitEditing={() => confirmPasswordRef.current?.focus()}
         secureTextEntry
         placeholder='Password'
         onChange={e => change('password', e.nativeEvent.text)}
       />
 
+      <FormTextField
+        ref={confirmPasswordRef}
+
+        returnKeyType='done'
+        secureTextEntry
+        placeholder='Confirm password'
+        onChange={e => change('confirmPassword', e.nativeEvent.text)}
+        onSubmitEditing={submitHandler}
+      />
+
       <Button
         loading={isLoading}
         label='Sign up'
-        onPress={
-          () => mutate(
-            { email: values.email, password: values.password },
-            () => navigation.navigate('Signin')
-          )
-        } />
+        onPress={submitHandler} />
       <ClickableText onPress={() => navigation.navigate('Signin')}>Already signed up? Sign in!</ClickableText>
     </View>
   );

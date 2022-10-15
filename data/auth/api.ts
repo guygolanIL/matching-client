@@ -6,9 +6,11 @@ export type LocalAuthPayload = {
     password: string;
 };
 
-export type RegisterRequestPayload = LocalAuthPayload;
+export type RegisterRequestPayload = LocalAuthPayload & {
+    confirmPassword: string;
+};
 export type RegisterResponse = ApiResponse<{ id: number }>;
-export async function register(payload: LocalAuthPayload): Promise<RegisterResponse> {
+export async function register(payload: RegisterRequestPayload): Promise<RegisterResponse> {
     const url = '/auth/register/password';
     const res = await httpClient.post<RegisterResponse>(url, payload);
 

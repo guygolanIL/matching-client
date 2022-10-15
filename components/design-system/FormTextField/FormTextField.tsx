@@ -1,4 +1,4 @@
-import React from "react";
+import React, { LegacyRef } from "react";
 import { TextInput, TextInputProps } from "react-native";
 
 import * as Styling from '../style';
@@ -14,14 +14,15 @@ const useStyles = Styling.createStyles(() => ({
     },
 }));
 type FormTextFieldProps = {} & TextInputProps;
-export function FormTextField(props: FormTextFieldProps) {
+export const FormTextField = React.forwardRef((props: FormTextFieldProps, ref: LegacyRef<TextInput>) => {
     const styles = useStyles();
     const theme = Styling.useTheme();
     return (
         <TextInput
+            ref={ref}
             {...props}
             style={styles.input}
             selectionColor={theme.palette.primary.main}
         />
     );
-}
+});

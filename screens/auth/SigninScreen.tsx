@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 
 import { Button } from '../../components/design-system/Button/Button';
 import { ClickableText } from '../../components/design-system/ClickableText/ClickableText';
@@ -12,6 +12,7 @@ import { Spinner } from '../../components/design-system/Spinner/Spinner';
 import { Error } from '../../components/design-system/Error/Error';
 import * as Styling from '../../components/design-system/style';
 import { useNavigation } from '@react-navigation/native';
+import { useRef } from 'react';
 
 const useStyles = Styling.createStyles(() => ({
   container: {
@@ -39,6 +40,8 @@ export function SigninScreen() {
     mutate
   } } = useAuth();
 
+  const passwordRef = useRef<TextInput>(null);
+
   const { values, change } = useFormValues<AuthFormFields>({
     email: '',
     password: ''
@@ -56,11 +59,24 @@ export function SigninScreen() {
     );
   }
 
+  const submitHandler = () => {
+    mutate({
+      email: values.email,
+      password: values.password,
+      latitude: location?.coords.latitude || 0,
+      longitude: location?.coords.longitude || 0
+    });
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sign in</Text>
       <View style={styles.separator} />
       <FormTextField
+
+        returnKeyType='next'
+        blurOnSubmit={false}
+        onSubmitEditing={() => passwordRef.current?.focus()}
         textContentType='emailAddress'
         autoComplete='email'
         keyboardType='email-address'
@@ -69,6 +85,10 @@ export function SigninScreen() {
       />
 
       <FormTextField
+        ref={passwordRef}
+
+        returnKeyType='done'
+        onSubmitEditing={submitHandler}
         textContentType='password'
         autoComplete='password'
         secureTextEntry
@@ -79,14 +99,7 @@ export function SigninScreen() {
       <Button
         label='Sign in'
         loading={isLoading}
-        onPress={() => {
-          mutate({
-            email: values.email,
-            password: values.password,
-            latitude: location?.coords.latitude || 0,
-            longitude: location?.coords.longitude || 0
-          });
-        }} />
+        onPress={submitHandler} />
       <ClickableText onPress={() => navigation.navigate('Auth', { screen: 'Signup' })}>Not signed up? Sign up!</ClickableText>
 
     </View>
