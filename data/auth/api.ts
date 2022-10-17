@@ -32,7 +32,7 @@ export async function login(payload: LoginRequestPayload): Promise<LoginResponse
 }
 
 type GoogleAuthPayload = {
-    access_token: string;
+    googleAccessToken: string;
 };
 export type GoogleLoginRequestPayload = GoogleAuthPayload & Position;
 export async function loginWithGoogle(payload: GoogleLoginRequestPayload): Promise<LoginResponse> {

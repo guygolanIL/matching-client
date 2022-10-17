@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as Google from 'expo-auth-session/providers/google';
 
 import Icons from '@expo/vector-icons/AntDesign';
@@ -28,18 +28,18 @@ export function GoogleSignInButton(props: Props) {
     const { location: { latitude, longitude } } = props;
 
     const onPressHandler = async () => {
-        const response = await promptAsync();
-
-        if (response.type === 'success') {
-            const { access_token } = response.params;
-            console.log(access_token);
-            loginWithBackend('google', {
-                longitude,
-                latitude,
-                access_token
-            });
+        const res = await promptAsync();
+        if (res?.type === 'success' && res.authentication) {
+            if (res.authentication) {
+                const { accessToken } = res.authentication;
+                console.log(accessToken);
+                loginWithBackend('google', {
+                    longitude,
+                    latitude,
+                    googleAccessToken: accessToken,
+                });
+            }
         }
-
     }
 
     return (
