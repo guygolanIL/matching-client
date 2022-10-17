@@ -52,11 +52,12 @@ export function ChatInputSection(props: Props) {
                 />
             </View>
             <View style={styles.sendButtonContainer}>
-                <SendButton onPress={() => {
-                    if (!inputValue) return;
-                    props.onSendMessage(inputValue);
-                    setInputValue(undefined);
-                }}
+                <SendButton
+                    onPress={() => {
+                        if (!inputValue) return;
+                        props.onSendMessage(inputValue);
+                        setInputValue(undefined);
+                    }}
                 />
             </View>
         </View>

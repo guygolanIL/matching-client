@@ -54,8 +54,7 @@ export function ImageStack(props: Props) {
             }
         ),
         onPanResponderRelease: (e, gestureState) => {
-
-            if (Math.abs(gestureState.dx) > panThreshold) {
+            if (Math.abs(gestureState.dx) > panThreshold || gestureState.vx > 1.0) {
                 const throwCardPosition = screenWidth + 200;
 
                 const direction: 'right' | 'left' = gestureState.dx > 0 ? 'right' : 'left';

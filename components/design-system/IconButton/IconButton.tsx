@@ -13,7 +13,7 @@ const useStyles = Styling.createStyles(({ theme, props }: { theme: Styling.Theme
                 ? theme.palette.grey.light
                 : props?.color
                     ? props.color
-                    : theme.palette.primary.dark,
+                    : theme.palette.primary.main,
             padding: 13,
             borderRadius: theme.shape.borderRadius.max,
             ...overrideStyle,
