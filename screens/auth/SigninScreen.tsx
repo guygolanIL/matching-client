@@ -1,20 +1,20 @@
 import { View, Text, TextInput } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { useRef } from 'react';
 
 import { Button } from '../../components/design-system/Button/Button';
 import { ClickableText } from '../../components/design-system/ClickableText/ClickableText';
 import { FormTextField } from '../../components/design-system/FormTextField/FormTextField';
 import { useAuth } from '../../contexts/auth';
 import { useFormValues } from '../../hooks/useFormValues';
-import { AuthScreenProps } from '../../navigation/auth/AuthStackNavigator';
 import { AuthFormFields } from './types';
 import { useLocation } from '../../hooks/useLocation';
 import { Spinner } from '../../components/design-system/Spinner/Spinner';
 import { Error } from '../../components/design-system/Error/Error';
 import * as Styling from '../../components/design-system/style';
-import { useNavigation } from '@react-navigation/native';
-import { useRef } from 'react';
+import { GoogleSignInButton } from './GoogleSignInButton/GoogleSignInButton';
 
-const useStyles = Styling.createStyles(() => ({
+const useStyles = Styling.createStyles(({ theme }) => ({
   container: {
     flex: 1,
     alignItems: 'center',
@@ -28,8 +28,15 @@ const useStyles = Styling.createStyles(() => ({
   separator: {
     marginVertical: 30,
     height: 1,
+    borderBottomColor: theme.palette.grey.light,
+    borderBottomWidth: 1,
     width: '80%',
   },
+  authProvidersContainer: {
+    alignItems: 'center',
+    marginTop: 40,
+    width: '100%',
+  }
 }));
 
 export function SigninScreen() {
@@ -60,7 +67,7 @@ export function SigninScreen() {
   }
 
   const submitHandler = () => {
-    mutate({
+    mutate('password', {
       email: values.email,
       password: values.password,
       latitude: location?.coords.latitude || 0,
@@ -72,8 +79,8 @@ export function SigninScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>Sign in</Text>
       <View style={styles.separator} />
-      <FormTextField
 
+      <FormTextField
         returnKeyType='next'
         blurOnSubmit={false}
         onSubmitEditing={() => passwordRef.current?.focus()}
@@ -100,7 +107,14 @@ export function SigninScreen() {
         label='Sign in'
         loading={isLoading}
         onPress={submitHandler} />
-      <ClickableText onPress={() => navigation.navigate('Auth', { screen: 'Signup' })}>Not signed up? Sign up!</ClickableText>
+      <ClickableText onPress={() => navigation.navigate('Auth', { screen: 'Signup' })}>Or register with password</ClickableText>
+
+      <View style={styles.authProvidersContainer}>
+        <GoogleSignInButton location={{
+          latitude: location?.coords.latitude || 0,
+          longitude: location?.coords.longitude || 0
+        }} />
+      </View>
 
     </View>
   );

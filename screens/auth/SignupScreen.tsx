@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Text, View } from 'react-native';
+import { Text, TextInput, View } from 'react-native';
 
 import { Button } from '../../components/design-system/Button/Button';
 import { ClickableText } from '../../components/design-system/ClickableText/ClickableText';
@@ -7,12 +7,10 @@ import { FormTextField } from '../../components/design-system/FormTextField/Form
 import { useAuth } from '../../contexts/auth';
 import { useFormValues } from '../../hooks/useFormValues';
 import { AuthScreenProps } from '../../navigation/auth/AuthStackNavigator';
-import { AuthFormFields } from './types';
 import * as Styling from '../../components/design-system/style';
 import { RegisterRequestPayload } from '../../data/auth/api';
-import { TextInput } from 'react-native-gesture-handler';
 
-const useStyles = Styling.createStyles(() => ({
+const useStyles = Styling.createStyles(({ theme }) => ({
   container: {
     flex: 1,
     alignItems: 'center',
@@ -27,6 +25,8 @@ const useStyles = Styling.createStyles(() => ({
     marginVertical: 30,
     height: 1,
     width: '80%',
+    borderBottomColor: theme.palette.grey.light,
+    borderBottomWidth: 1,
   },
 }));
 

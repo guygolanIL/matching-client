@@ -5,13 +5,15 @@ import { AxiosError } from 'axios';
 
 import { useUserToken } from '../hooks/useUserToken';
 import { ApiErrorResponse } from '../data/types';
-import { login, LoginRequestPayload, logout, register, RegisterRequestPayload } from '../data/auth/api';
+import { GoogleLoginRequestPayload, login, LoginRequestPayload, LoginResponse, loginWithGoogle, logout, register, RegisterRequestPayload } from '../data/auth/api';
 import { jwt } from '../util/jwt';
+
+
 
 type IAuthContext = {
     userId?: number,
     signIn: {
-        mutate: (payload: LoginRequestPayload, cb?: () => void) => void;
+        mutate: (using: 'google' | 'password', payload: LoginRequestPayload | GoogleLoginRequestPayload, cb?: () => void) => void;
         isLoading: boolean;
     },
     signUp: {
@@ -54,6 +56,11 @@ export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string
             Toast.show(error.response?.data?.issues[0]?.message || "Failed to login");
         },
     });
+    const { mutate: loginWithGoogleMutation, isLoading: isLoginWithGoogleLoading } = useMutation(loginWithGoogle, {
+        onError(error: AxiosError<ApiErrorResponse>) {
+            Toast.show(error.response?.data?.issues[0]?.message || "Failed to login");
+        },
+    });
     const { mutate: registerMutation, isLoading: isRegisterLoading } = useMutation(register, {
         onError(error: AxiosError<ApiErrorResponse>) {
             Toast.show(error.response?.data?.issues[0]?.message || 'Failed to register');
@@ -70,14 +77,25 @@ export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string
         },
     });
 
-    function signIn(payload: LoginRequestPayload, cb?: () => void) {
-        loginMutation(payload, {
-            onSuccess: (data) => {
-                updateUserToken(data.result.accessToken);
-                updateRefreshToken(data.result.refreshToken);
-                cb?.();
-            }
-        });
+    function signIn(using: 'google' | 'password', payload: LoginRequestPayload | GoogleLoginRequestPayload, cb?: () => void) {
+        const onSuccess = (data: LoginResponse) => {
+            updateUserToken(data.result.accessToken);
+            updateRefreshToken(data.result.refreshToken);
+            cb?.();
+        };
+
+        if (using === 'password') {
+
+            loginMutation(payload as LoginRequestPayload, {
+                onSuccess
+            });
+        }
+
+        if (using === 'google') {
+            loginWithGoogleMutation(payload as GoogleLoginRequestPayload, {
+                onSuccess
+            });
+        }
     }
 
     function signUp(payload: RegisterRequestPayload, cb?: () => void) {
@@ -102,7 +120,7 @@ export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string
         <AuthContext.Provider value={{
             userId,
             signIn: {
-                isLoading: isLoginLoading,
+                isLoading: isLoginLoading || isLoginWithGoogleLoading,
                 mutate: signIn,
             },
             signUp: {

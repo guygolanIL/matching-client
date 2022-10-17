@@ -1,6 +1,11 @@
 import { httpClient } from "../http-client";
 import { ApiResponse } from "../types";
 
+type Position = {
+    longitude: number;
+    latitude: number;
+};
+
 export type LocalAuthPayload = {
     email: string;
     password: string;
@@ -18,10 +23,21 @@ export async function register(payload: RegisterRequestPayload): Promise<Registe
 }
 
 export type LoginResponse = ApiResponse<{ accessToken: string; refreshToken: string }>;
-export type LoginRequestPayload = LocalAuthPayload & { longitude: number; latitude: number };
+export type LoginRequestPayload = LocalAuthPayload & Position;
 export async function login(payload: LoginRequestPayload): Promise<LoginResponse> {
     const url = '/auth/login/password';
     const res = await httpClient.post<LoginResponse>(url, payload);
+
+    return res.data;
+}
+
+type GoogleAuthPayload = {
+    access_token: string;
+};
+export type GoogleLoginRequestPayload = GoogleAuthPayload & Position;
+export async function loginWithGoogle(payload: GoogleLoginRequestPayload): Promise<LoginResponse> {
+    const url = '/auth/login/google';
+    const res = await httpClient.post(url, payload);
 
     return res.data;
 }

@@ -12,7 +12,7 @@ const config = {
     },
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "com.macha.matcha",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -26,7 +26,8 @@ const config = {
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.macha.matcha"
     },
     "android": {
       "package": "com.macha.matcha",
