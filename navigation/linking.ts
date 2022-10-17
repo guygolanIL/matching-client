@@ -20,17 +20,28 @@ export const linking: LinkingOptions<RootStackParamList> = {
       },
       App: {
         screens: {
-          Feed: 'feed',
-          Profile: 'profile',
-          Settings: 'settings',
-          Chats: {
+          Main: {
             screens: {
-              Main: 'chats',
-              Chat: 'chat'
+              Feed: 'feed',
+              Profile: 'profile',
+              Settings: 'settings',
+              Chats: {
+                screens: {
+                  Main: 'chats',
+                  Chat: 'chat'
+                }
+              }
+            }
+          },
+          Loading: 'loading',
+          OnboardingWizard: {
+            screens: {
+              Name: 'name',
+              Avatar: 'avatar',
             }
           }
         }
-      },
+      }
     },
   },
 };

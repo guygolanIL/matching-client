@@ -12,7 +12,7 @@ export type AuthScreensParams = {
 
 const AuthStack = createStackNavigator<AuthScreensParams>();
 
-export function AuthNavigator() {
+export function AuthStackNavigator() {
     return (
         <AuthStack.Navigator id='auth'>
             <AuthStack.Screen options={{ headerShown: false }} name="Signin" component={SigninScreen} />

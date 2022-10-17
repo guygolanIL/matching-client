@@ -1,11 +1,12 @@
 import { useMemo } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TextStyle } from 'react-native';
 
 const theme = {
     palette: {
         primary: {
             main: '#aacf80',
             light: '#ddeccc',
+            dark: '#77915a',
 
         },
         success: {
@@ -13,6 +14,10 @@ const theme = {
         },
         error: {
             main: '#d32f2f'
+        },
+        grey: {
+            main: '#b1b1b1',
+            light: '#dcdcdc',
         }
     },
     shape: {
@@ -21,6 +26,12 @@ const theme = {
             hard: 50,
             smooth: 10
         },
+    },
+    typography: {
+        header: {
+            fontSize: 30,
+            fontWeight: '600',
+        } as TextStyle,
     },
     shadows: {
         elevation: 4,
@@ -56,7 +67,7 @@ export function createStyles<T extends StyleSheet.NamedStyles<T> | StyleSheet.Na
 
         const styles = useMemo(() => (
             StyleSheet.create(creator({ theme, props }))
-        ), [theme, props]);
+        ), [theme, props, creator]);
 
         return styles;
     }

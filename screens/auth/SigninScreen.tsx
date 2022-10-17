@@ -5,7 +5,7 @@ import { ClickableText } from '../../components/design-system/ClickableText/Clic
 import { FormTextField } from '../../components/design-system/FormTextField/FormTextField';
 import { useAuth } from '../../contexts/auth';
 import { useFormValues } from '../../hooks/useFormValues';
-import { AuthScreenProps } from '../../navigation/auth/AuthNavigator';
+import { AuthScreenProps } from '../../navigation/auth/AuthStackNavigator';
 import { AuthFormFields } from './types';
 import { useLocation } from '../../hooks/useLocation';
 import { Spinner } from '../../components/design-system/Spinner/Spinner';

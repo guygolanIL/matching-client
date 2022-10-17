@@ -24,6 +24,17 @@ export async function uploadImage(requestbody: UploadImageRequestBody): Promise<
     return res.data;
 }
 
+export type UpdatePrivateUserProfileRequestBody = {
+    name: string;
+};
+type UpdatePrivateUserProfileResponseBody = ApiResponse<PrivateUserProfile>;
+export async function updatePrivateUserProfile(payload: UpdatePrivateUserProfileRequestBody) {
+    const url = '/profile';
+    const res = await httpClient.put<UpdatePrivateUserProfileResponseBody>(url, payload);
+
+    return res.data
+}
+
 type PrivateUserProfile = PublicUserProfile & {
     //add private fields
 };
@@ -35,9 +46,13 @@ export async function getPrivateUserProfile(): Promise<PrivateUserProfile> {
     return res.data.result;
 }
 
+type OnboardingStatus = 'INITIAL' | 'IN_PROGRESS' | 'COMPLETED';
+
 type PublicUserProfile = {
-    userId: number
+    userId: number;
+    name?: string;
     profileImage?: ProfileImage;
+    onboardingStatus: OnboardingStatus;
 };
 type GetPublicUserProfileResponseBody = ApiResponse<PublicUserProfile>;
 export async function getPublicUserProfile(userId: number): Promise<PublicUserProfile> {

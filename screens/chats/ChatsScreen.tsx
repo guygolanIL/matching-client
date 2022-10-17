@@ -30,7 +30,9 @@ export function ChatsScreen() {
                 }}
                 to={{
                     screen: 'App', params: {
-                        screen: 'Feed'
+                        screen: 'Main', params: {
+                            screen: 'Feed'
+                        }
                     }
                 }}
             >
@@ -50,12 +52,14 @@ export function ChatsScreen() {
                             label={matchedWith.userId.toString()}
                             imageUri={imageUri}
                             onPress={() => navigation.navigate('App', {
-                                screen: 'Chats', params: {
-                                    screen: 'Chat', params: {
-                                        matchedWith,
-                                        matchId: id,
-                                        profileImgUri: imageUri,
-                                    },
+                                screen: 'Main', params: {
+                                    screen: 'Chats', params: {
+                                        screen: 'Chat', params: {
+                                            matchedWith,
+                                            matchId: id,
+                                            profileImgUri: imageUri,
+                                        },
+                                    }
                                 }
                             })}
                         />

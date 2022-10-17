@@ -1,6 +1,6 @@
 import { FlatList, View, ListRenderItem } from 'react-native'
 
-import { ChatsScreenProps } from "../../../navigation/app/chat/ChatNavigator";
+import { ChatsScreenProps } from "../../../navigation/app/main/chat/ChatStackNavigator";
 import * as Styling from '../../../components/design-system/style';
 import { ChatInputSection } from './ChatInputSection/ChatInputSection';
 import { useChat } from '../useChat';

@@ -2,12 +2,13 @@ import { NavigationContainer, NavigatorScreenParams, useNavigationContainerRef }
 import { createStackNavigator } from '@react-navigation/stack';
 import { useReduxDevToolsExtension } from '@react-navigation/devtools';
 import React from 'react';
+import { SheetProvider } from 'react-native-actions-sheet';
 
 import { linking } from './linking';
-import { AuthNavigator, AuthScreensParams } from './auth/AuthNavigator';
-import { AppNavigator, AppScreensParams } from './app/AppNavigator';
+import { AuthStackNavigator, AuthScreensParams } from './auth/AuthStackNavigator';
+import { AppTabsNavigator } from './app/main/AppTabsNavigator';
 import { useAuth } from '../contexts/auth';
-import { SheetProvider } from 'react-native-actions-sheet';
+import { AppStackNavigator, AppStackScreensParams } from './app/AppStackNavigator';
 
 
 declare global {
@@ -18,7 +19,7 @@ declare global {
 
 export type RootStackParamList = {
   Auth: NavigatorScreenParams<AuthScreensParams> | undefined;
-  App: NavigatorScreenParams<AppScreensParams> | undefined;
+  App: NavigatorScreenParams<AppStackScreensParams> | undefined;
 };
 
 
@@ -33,7 +34,7 @@ export default function Navigation() {
       linking={linking}
     >
       <SheetProvider>
-        <RootNavigator />
+        <RootStackNavigator />
       </SheetProvider>
     </NavigationContainer>
   );
@@ -41,18 +42,20 @@ export default function Navigation() {
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
-function RootNavigator() {
+function RootStackNavigator() {
   const { userId } = useAuth();
+
+  function mapToNavigator() {
+    if (!userId) return <RootStack.Screen options={{ headerShown: false }} name="Auth" component={AuthStackNavigator} />;
+    return <RootStack.Screen name="App" options={{ headerShown: false }} component={AppStackNavigator} />;
+  }
 
   return (
     <RootStack.Navigator
       id='root'
       initialRouteName={userId ? 'App' : 'Auth'}
     >
-      {userId ?
-        <RootStack.Screen options={{ headerShown: false }} name="App" component={AppNavigator} />
-        : <RootStack.Screen options={{ headerShown: false }} name="Auth" component={AuthNavigator} />}
-
+      {mapToNavigator()}
     </RootStack.Navigator>
   );
 }

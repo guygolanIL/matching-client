@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { getPrivateUserProfile } from "../api";
 
+export const getPrivateProfileQueryKey = 'user-profile';
 export function useGetPrivateUserProfileQuery() {
-    return useQuery(['user-profile'], getPrivateUserProfile);
+    return useQuery([getPrivateProfileQueryKey], getPrivateUserProfile);
 }

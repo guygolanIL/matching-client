@@ -6,7 +6,7 @@ import { ClickableText } from '../../components/design-system/ClickableText/Clic
 import { FormTextField } from '../../components/design-system/FormTextField/FormTextField';
 import { useAuth } from '../../contexts/auth';
 import { useFormValues } from '../../hooks/useFormValues';
-import { AuthScreenProps } from '../../navigation/auth/AuthNavigator';
+import { AuthScreenProps } from '../../navigation/auth/AuthStackNavigator';
 import { AuthFormFields } from './types';
 import * as Styling from '../../components/design-system/style';
 import { RegisterRequestPayload } from '../../data/auth/api';

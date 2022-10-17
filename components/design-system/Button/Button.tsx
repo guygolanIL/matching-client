@@ -7,6 +7,7 @@ type ButtonProps = {
     label: string;
     color?: string;
     loading?: boolean;
+    disabled?: boolean;
 }
 
 const useStyles = Styling.createStyles(({ theme, props }: { theme: Styling.Theme, props?: ButtonProps }) => ({
@@ -16,7 +17,8 @@ const useStyles = Styling.createStyles(({ theme, props }: { theme: Styling.Theme
         borderRadius: theme.shape.borderRadius.smooth,
         borderColor: '#000000',
         width: '90%',
-        backgroundColor: props?.color || theme.palette.primary.main
+        backgroundColor: props?.color || theme.palette.primary.main,
+        opacity: props?.disabled ? 0.6 : 1,
     } as const,
     buttonText: {
         fontWeight: '500',
@@ -25,10 +27,10 @@ const useStyles = Styling.createStyles(({ theme, props }: { theme: Styling.Theme
 }));
 
 export function Button(props: ButtonProps) {
-    const { label, onPress } = props;
+    const { label, onPress, disabled } = props;
     const styles = useStyles(props);
     return (
-        <TouchableOpacity style={styles.button} onPress={onPress}>
+        <TouchableOpacity disabled={disabled} style={styles.button} onPress={onPress}>
             {!props.loading && <Text style={styles.buttonText}>{label}</Text>}
             {props.loading && <Text style={styles.buttonText}>Loading...</Text>}
         </TouchableOpacity>
