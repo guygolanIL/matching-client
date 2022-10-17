@@ -19,7 +19,7 @@ export function GoogleSignInButton(props: Props) {
         mutate: loginWithBackend,
         isLoading
     } } = useAuth();
-    const [request, response, promptAsync] = Google.useAuthRequest({
+    const [request, response, loginWithGoogle] = Google.useAuthRequest({
         expoClientId: "860354187714-f84b71d5ivrctigigti0dpeo6s7sq16o.apps.googleusercontent.com",
         iosClientId: "860354187714-hq6kblgtdjv40sqocj2t8dav4kqkpo2s.apps.googleusercontent.com",
         androidClientId: "860354187714-2tikeenfmt1ouvojp1betvkmujurgup4.apps.googleusercontent.com",
@@ -27,11 +27,10 @@ export function GoogleSignInButton(props: Props) {
 
     const { location: { latitude, longitude } } = props;
 
-    const onPressHandler = async () => {
-        const res = await promptAsync();
-        if (res?.type === 'success' && res.authentication) {
-            if (res.authentication) {
-                const { accessToken } = res.authentication;
+    useEffect(() => {
+        if (response?.type === 'success' && response.authentication) {
+            if (response.authentication) {
+                const { accessToken } = response.authentication;
                 console.log(accessToken);
                 loginWithBackend('google', {
                     longitude,
@@ -40,7 +39,7 @@ export function GoogleSignInButton(props: Props) {
                 });
             }
         }
-    }
+    }, [response]);
 
     return (
         <Button
@@ -50,7 +49,7 @@ export function GoogleSignInButton(props: Props) {
             borderColor='#dc4e41'
             startAdornment={<Icons style={{ marginRight: 20 }} name="google" size={24} color="#dc4e41" />}
             label='Continue with Google'
-            onPress={onPressHandler}
+            onPress={() => loginWithGoogle()}
         />
     );
 }
