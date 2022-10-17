@@ -31,7 +31,6 @@ export function GoogleSignInButton(props: Props) {
         if (response?.type === 'success' && response.authentication) {
             if (response.authentication) {
                 const { accessToken } = response.authentication;
-                console.log(accessToken);
                 loginWithBackend('google', {
                     longitude,
                     latitude,
