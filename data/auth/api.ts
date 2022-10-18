@@ -23,8 +23,9 @@ export async function register(payload: RegisterRequestPayload): Promise<Registe
 }
 
 export type LoginResponse = ApiResponse<{ accessToken: string; refreshToken: string }>;
-export type LoginRequestPayload = LocalAuthPayload & Position;
-export async function login(payload: LoginRequestPayload): Promise<LoginResponse> {
+
+export type LocalLoginRequestPayload = LocalAuthPayload & Position;
+export async function login(payload: LocalLoginRequestPayload): Promise<LoginResponse> {
     const url = '/auth/login/password';
     const res = await httpClient.post<LoginResponse>(url, payload);
 

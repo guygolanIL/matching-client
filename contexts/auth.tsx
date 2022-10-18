@@ -5,15 +5,22 @@ import { AxiosError } from 'axios';
 
 import { useUserToken } from '../hooks/useUserToken';
 import { ApiErrorResponse } from '../data/types';
-import { GoogleLoginRequestPayload, login, LoginRequestPayload, LoginResponse, loginWithGoogle, logout, register, RegisterRequestPayload } from '../data/auth/api';
+import { GoogleLoginRequestPayload, login, LocalLoginRequestPayload, LoginResponse, loginWithGoogle, logout, register, RegisterRequestPayload } from '../data/auth/api';
 import { jwt } from '../util/jwt';
 
+type LoginStrategyPayload = {
+    'google': GoogleLoginRequestPayload,
+    'password': LocalLoginRequestPayload,
+};
 
+type SignInFn = <T extends keyof LoginStrategyPayload>(
+    ...args: [strategy: T, payload: LoginStrategyPayload[T]]
+) => void;
 
 type IAuthContext = {
     userId?: number,
     signIn: {
-        mutate: (using: 'google' | 'password', payload: LoginRequestPayload | GoogleLoginRequestPayload, cb?: () => void) => void;
+        mutate: SignInFn;
         isLoading: boolean;
     },
     signUp: {
@@ -77,16 +84,14 @@ export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string
         },
     });
 
-    function signIn(using: 'google' | 'password', payload: LoginRequestPayload | GoogleLoginRequestPayload, cb?: () => void) {
+    const signIn: SignInFn = (using, payload) => {
         const onSuccess = (data: LoginResponse) => {
             updateUserToken(data.result.accessToken);
             updateRefreshToken(data.result.refreshToken);
-            cb?.();
         };
 
         if (using === 'password') {
-
-            loginMutation(payload as LoginRequestPayload, {
+            loginMutation(payload as LocalLoginRequestPayload, {
                 onSuccess
             });
         }
