@@ -13,7 +13,7 @@ type ProfileImage = {
 }
 
 type UploadImageResponseBody = ApiResponse<ProfileImage>;
-type UploadImageRequestBody = {
+export type UploadImageRequestBody = {
     type: ImageType;
     base64: string;
 };

@@ -1,5 +1,5 @@
-import { View } from "react-native";
-import { Link, useNavigation } from '@react-navigation/native';
+import { View, Text } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 
 import { Error } from "../../components/design-system/Error/Error";
 import { Spinner } from "../../components/design-system/Spinner/Spinner";
@@ -24,20 +24,18 @@ export function ChatsScreen() {
 
     if (matches?.length === 0) return (
         <Error message={
-            <Link
+            <Text
+                onPress={() => navigation.navigate('App', {
+                    screen: 'Main', params: {
+                        screen: 'Feed'
+                    }
+                })}
                 style={{
                     color: theme.palette.primary.main
                 }}
-                to={{
-                    screen: 'App', params: {
-                        screen: 'Main', params: {
-                            screen: 'Feed'
-                        }
-                    }
-                }}
             >
                 No matches yet... :(
-            </Link>}
+            </Text>}
         />
     );
 

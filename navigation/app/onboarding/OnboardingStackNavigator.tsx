@@ -1,4 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
+import { Spinner } from "../../../components/design-system/Spinner/Spinner";
 
 import { AvatarScreen } from "../../../screens/onboarding/AvatarScreen";
 import { NameScreen } from "../../../screens/onboarding/NameScreen";
@@ -6,6 +7,7 @@ import { NameScreen } from "../../../screens/onboarding/NameScreen";
 export type OnboardingStackScreensParams = {
     Name: undefined;
     Avatar: undefined;
+    Loading: undefined;
 };
 
 const OnboardingStack = createStackNavigator<OnboardingStackScreensParams>();
@@ -27,6 +29,11 @@ export function OnboardingStackNavigator() {
             <OnboardingStack.Screen
                 name="Avatar"
                 component={AvatarScreen}
+            />
+
+            <OnboardingStack.Screen
+                name="Loading"
+                component={Spinner}
             />
         </OnboardingStack.Navigator>
     );
