@@ -86,7 +86,7 @@ export function ImageStack(props: Props) {
     function getTransform(index: number) {
         const firstImage = [
             { translateX: pan },
-            { rotateZ: pan.interpolate({ inputRange: [-1, 1], outputRange: ['-0.1deg', '0.1deg'] }) }
+            { rotateZ: pan.interpolate({ inputRange: [-1, 1], outputRange: ['-0.05deg', '0.05deg'] }) }
         ];
 
         if (index === 0) return firstImage;

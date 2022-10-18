@@ -1,4 +1,4 @@
-import { View, Image, Animated } from 'react-native';
+import { View, Animated } from 'react-native';
 import Toast from 'react-native-root-toast';
 
 import { Error } from '../../components/design-system/Error/Error';
@@ -11,6 +11,7 @@ import { ImageButton } from '../../components/design-system/ImageButton/ImageBut
 import * as Styling from '../../components/design-system/style';
 import { useFadeIn } from '../../components/design-system/style/animations/useFadeIn';
 import { withDefaultProfileImage } from '../../util/image';
+import { useSheetManager } from '../../hooks/useSheetManager';
 
 const useStyles = Styling.createStyles(() => ({
     screen: {
@@ -36,6 +37,7 @@ export function ProfileScreen() {
     const styles = useStyles();
     const { mutate, isLoading } = useUploadProfileImageMutation();
     const fadeIn = useFadeIn();
+    const sheets = useSheetManager();
     const imagePicker = useImagePicker({
         onError(e) {
             Toast.show(e);
@@ -58,7 +60,21 @@ export function ProfileScreen() {
                     opacity: fadeIn
                 }}
             >
-                <ImageButton shape='max' uri={uri} size={'large'} onPress={() => imagePicker.open()} />
+                <ImageButton
+                    shape='max'
+                    uri={uri}
+                    size={'large'}
+                    onPress={async () => {
+                        const result = await sheets.show('image-source-picker', undefined);
+
+                        if (result?.type === 'camera') {
+                            imagePicker.pickFromCamera();
+                        }
+                        if (result?.type === 'gallery') {
+                            imagePicker.pickFromGallery();
+                        }
+                    }}
+                />
             </Animated.View>
 
             <View style={styles.confirmSection}>

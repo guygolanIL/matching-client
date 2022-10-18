@@ -5,6 +5,7 @@ import Toast from "react-native-root-toast";
 
 import { ImageButton } from "../../components/design-system/ImageButton/ImageButton";
 import { useFadeIn } from "../../components/design-system/style/animations/useFadeIn";
+import { useSheetManager } from "../../hooks/useSheetManager";
 import { useUpdateOnboardingStatusMutation } from "../../data/onboarding/hooks/useUpdateOnboardingStatusMutation";
 import { useImagePicker } from "../../hooks/useImagePicker";
 import { withDefaultProfileImage } from "../../util/image";
@@ -14,6 +15,7 @@ export function AvatarScreen() {
     const navigation = useNavigation();
     const { mutate } = useUpdateOnboardingStatusMutation();
     const fadeIn = useFadeIn();
+    const sheets = useSheetManager();
     const imagePicker = useImagePicker({
         onError(e) {
             Toast.show(e);
@@ -52,7 +54,20 @@ export function AvatarScreen() {
                     opacity: fadeIn
                 }}
             >
-                <ImageButton shape='hard' uri={uri} size={'large'} onPress={() => imagePicker.open()} />
+                <ImageButton
+                    shape='hard'
+                    uri={uri}
+                    size={'large'}
+                    onPress={async () => {
+                        const result = await sheets.show('image-source-picker', undefined);
+                        if (result?.type === 'camera') {
+                            imagePicker.pickFromCamera();
+                        }
+                        if (result?.type === 'gallery') {
+                            imagePicker.pickFromGallery();
+                        }
+                    }}
+                />
             </Animated.View>
 
         </OnboardingScreenLayout>

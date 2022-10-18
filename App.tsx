@@ -1,5 +1,5 @@
 import "react-native/Libraries/Types/CodegenTypes";
-import "./components/sheets";
+import "./hooks/useSheetManager";
 
 import React from "react";
 import { StatusBar } from 'expo-status-bar';
@@ -11,6 +11,9 @@ import useCachedResources from './hooks/useCachedResources';
 import { AuthProvider } from './contexts/auth';
 import { queryClient } from './data/query-client';
 import Navigation from "./navigation";
+import { registerSheets } from "./components/sheets/register";
+
+registerSheets();
 
 export default function App() {
   const { isLoadingComplete, userToken } = useCachedResources();
