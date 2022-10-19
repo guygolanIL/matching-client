@@ -36,6 +36,9 @@ export function NewMatching(props: SheetProps) {
         <ActionSheet
             id={props.sheetId}
             gestureEnabled
+            containerStyle={{
+                height: '65%'
+            }}
         >
             <View style={styles.container}>
                 {isLoading ? (<Spinner />) : (
