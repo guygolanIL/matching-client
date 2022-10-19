@@ -25,7 +25,7 @@ const theme = {
         borderRadius: {
             max: 10000,
             hard: 50,
-            smooth: 10
+            smooth: 15
         },
     },
     typography: {

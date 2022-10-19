@@ -22,26 +22,23 @@ export function ImageSourcePicker(props: SheetProps) {
         <ActionSheet
             id={props.sheetId}
             containerStyle={{
-                backgroundColor: 'white',
+                backgroundColor: 'transparent',
                 elevation: 0,
+                height: '14%'
             }}
         >
             <View style={styles.buttonsContainer}>
                 <ImageSourceButton
-                    onPress={() => {
-                        sheets.hide('image-source-picker', {
-                            type: 'camera'
-                        })
-                    }}
+                    onPress={() => sheets.hide('image-source-picker', {
+                        type: 'camera'
+                    })}
                     text='Camera'
                     icon={<EvilIcons name="camera" size={30} color="black" />}
                 />
                 <ImageSourceButton
-                    onPress={() => {
-                        sheets.hide('image-source-picker', {
-                            type: 'gallery'
-                        })
-                    }}
+                    onPress={() => sheets.hide('image-source-picker', {
+                        type: 'gallery'
+                    })}
                     text='Gallery'
                     icon={<MaterialIcons name="insert-photo" size={30} color="black" />}
                 />
