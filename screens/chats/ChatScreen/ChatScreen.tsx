@@ -7,6 +7,8 @@ import { useChat } from '../useChat';
 import { ChatMessage } from './ChatMessage/ChatMessage';
 import { useCallback, useRef } from 'react';
 import { Message } from '../../../data/chat/api';
+import postMessageSound from '../../../assets/sounds/post-message.mp3';
+import { useSound } from '../../../hooks/useSound';
 
 const useStyles = Styling.createStyles(() => ({
     container: {
@@ -19,8 +21,9 @@ export function ChatScreen(props: ChatsScreenProps<'Chat'>) {
     const styles = useStyles();
     const theme = Styling.useTheme();
     const listRef = useRef<FlatList<Message>>(null);
+    const sound = useSound(postMessageSound);
 
-    const { messages, sendMessage } = useChat(matchId);
+    const chat = useChat(matchId);
 
     const renderItem: ListRenderItem<Message> = useCallback(({ item }) => {
         if (item.createdByUserId === matchedWith.userId) {
@@ -31,22 +34,25 @@ export function ChatScreen(props: ChatsScreenProps<'Chat'>) {
 
     const keyExtractor = useCallback((item: Message) => item.id.toString(), []);
 
+    const onSendHandler = (content: string) => {
+        chat.sendMessage(content);
+        if (chat.messages?.length !== 0) {
+            listRef.current?.scrollToIndex({ animated: true, index: 0 });
+        }
+        sound.play();
+    }
+
     return (
         <View style={styles.container}>
             <FlatList
                 ref={listRef}
                 inverted
-                data={messages || []}
+                data={chat.messages || []}
                 renderItem={renderItem}
                 keyExtractor={keyExtractor}
             />
             <ChatInputSection
-                onSendMessage={(content) => {
-                    sendMessage(content);
-                    if (messages?.length !== 0) {
-                        listRef.current?.scrollToIndex({ animated: true, index: 0 });
-                    }
-                }}
+                onSendMessage={onSendHandler}
             />
         </View>
     );

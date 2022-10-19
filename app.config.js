@@ -27,7 +27,12 @@ const config = {
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.macha.matcha"
+      "bundleIdentifier": "com.macha.matcha",
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "audio"
+        ]
+      }
     },
     "android": {
       "package": "com.macha.matcha",

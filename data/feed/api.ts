@@ -7,6 +7,7 @@ type ProfileImage = {
 
 export type PublicProfileInfo = {
     userId: number;
+    name: string;
     profileImage?: ProfileImage;
 }
 

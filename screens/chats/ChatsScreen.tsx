@@ -47,7 +47,7 @@ export function ChatsScreen() {
                 return (
                     <View key={id} style={styles.buttonContainer}>
                         <MatchButton
-                            label={matchedWith.userId.toString()}
+                            label={matchedWith.name}
                             imageUri={imageUri}
                             onPress={() => navigation.navigate('App', {
                                 screen: 'Main', params: {
