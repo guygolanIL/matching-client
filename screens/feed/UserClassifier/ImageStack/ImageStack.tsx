@@ -1,12 +1,13 @@
 import { useRef, useState } from 'react';
-import { Animated, PanResponder, useWindowDimensions, ViewStyle } from 'react-native';
+import { Animated, PanResponder, useWindowDimensions, ViewStyle, Image } from 'react-native';
 import AttitudeIcon from '@expo/vector-icons/AntDesign';
 
 import * as Styling from '../../../../components/design-system/style';
 import { Attitude } from '../../../../data/feed/api';
 import { useFadeIn } from '../../../../components/design-system/style/animations/useFadeIn';
 
-const comeTomorrowImageUri = "https://res.cloudinary.com/dnsshs5nw/image/upload/v1665147206/5ujmu3thwd571_q0lkkh.png";
+import comeTomorrowImageSource from '../../../../assets/images/resting-matcha.png';
+const comeTomorrowImageUri = Image.resolveAssetSource(comeTomorrowImageSource).uri
 
 type Props = {
     stack: Array<{ uri: string; id: number; }>;
