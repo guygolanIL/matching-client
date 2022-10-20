@@ -4,7 +4,7 @@ import { Text, TextInput, View } from 'react-native';
 import { Button } from '../../components/design-system/Button/Button';
 import { ClickableText } from '../../components/design-system/ClickableText/ClickableText';
 import { FormTextField } from '../../components/design-system/FormTextField/FormTextField';
-import { useAuth } from '../../contexts/auth';
+import { useAuthContext } from '../../contexts/auth';
 import { useFormValues } from '../../hooks/useFormValues';
 import { AuthScreenProps } from '../../navigation/auth/AuthStackNavigator';
 import * as Styling from '../../components/design-system/style';
@@ -35,7 +35,7 @@ export function SignupScreen({ navigation }: AuthScreenProps<'Signup'>) {
   const { signUp: {
     isLoading,
     mutate
-  } } = useAuth();
+  } } = useAuthContext();
 
   const passwordRef = useRef<TextInput>(null);
   const confirmPasswordRef = useRef<TextInput>(null);

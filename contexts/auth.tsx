@@ -142,6 +142,6 @@ export const AuthProvider = (props: PropsWithChildren<{ initialUserToken: string
     );
 }
 
-export function useAuth() {
+export function useAuthContext(): IAuthContext {
     return useContext(AuthContext);
 } 

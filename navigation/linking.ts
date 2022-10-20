@@ -38,7 +38,7 @@ export const linking: LinkingOptions<RootStackParamList> = {
             screens: {
               Name: 'name',
               Avatar: 'avatar',
-              Loading: 'loading'
+              OnboardingLoading: 'onboardingLoading'
             }
           }
         }

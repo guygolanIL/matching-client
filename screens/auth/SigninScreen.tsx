@@ -5,7 +5,7 @@ import { useRef } from 'react';
 import { Button } from '../../components/design-system/Button/Button';
 import { ClickableText } from '../../components/design-system/ClickableText/ClickableText';
 import { FormTextField } from '../../components/design-system/FormTextField/FormTextField';
-import { useAuth } from '../../contexts/auth';
+import { useAuthContext } from '../../contexts/auth';
 import { useFormValues } from '../../hooks/useFormValues';
 import { AuthFormFields } from './types';
 import { useLocation } from '../../hooks/useLocation';
@@ -45,7 +45,7 @@ export function SigninScreen() {
   const { signIn: {
     isLoading,
     mutate
-  } } = useAuth();
+  } } = useAuthContext();
 
   const passwordRef = useRef<TextInput>(null);
 

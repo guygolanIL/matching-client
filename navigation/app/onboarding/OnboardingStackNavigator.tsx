@@ -7,7 +7,7 @@ import { NameScreen } from "../../../screens/onboarding/NameScreen";
 export type OnboardingStackScreensParams = {
     Name: undefined;
     Avatar: undefined;
-    Loading: undefined;
+    OnboardingLoading: undefined;
 };
 
 const OnboardingStack = createStackNavigator<OnboardingStackScreensParams>();
@@ -32,7 +32,7 @@ export function OnboardingStackNavigator() {
             />
 
             <OnboardingStack.Screen
-                name="Loading"
+                name="OnboardingLoading"
                 component={Spinner}
             />
         </OnboardingStack.Navigator>

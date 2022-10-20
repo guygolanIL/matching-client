@@ -1,19 +1,16 @@
 
-import { useAuth } from '../../contexts/auth';
+import { useAuthContext } from '../../contexts/auth';
+import { useSocketContext } from '../../contexts/socket';
 import { useCreateMessageMutation } from '../../data/chat/hooks/useCreateMessageMutation';
 import { useGetMessagesQuery } from '../../data/chat/hooks/useGetMessagesQuery';
-import { useSocketConnection } from '../../hooks/useSocketConnection';
 import { byDate } from '../../util/sort';
 
-export type UseChatOptions = {
-    onNewMessage: () => void;
-}
-export function useChat(matchId: number, options?: UseChatOptions) {
-    const { userId } = useAuth();
+export function useChat(matchId: number) {
+    const { userId } = useAuthContext();
     const { mutate } = useCreateMessageMutation(userId!);
     const { data, refetch } = useGetMessagesQuery(matchId);
 
-    const { isConnected } = useSocketConnection({
+    const { isConnected } = useSocketContext({
         messagesUpdated() {
             refetch();
         },

@@ -3,7 +3,7 @@ import * as Google from 'expo-auth-session/providers/google';
 
 import Icons from '@expo/vector-icons/AntDesign';
 import { Button } from '../../../components/design-system/Button/Button';
-import { useAuth } from '../../../contexts/auth';
+import { useAuthContext } from '../../../contexts/auth';
 import * as Styling from '../../../components/design-system/style';
 
 type Props = {
@@ -18,7 +18,7 @@ export function GoogleSignInButton(props: Props) {
     const { signIn: {
         mutate: loginWithBackend,
         isLoading
-    } } = useAuth();
+    } } = useAuthContext();
     const [request, response, loginWithGoogle] = Google.useAuthRequest({
         expoClientId: "860354187714-f84b71d5ivrctigigti0dpeo6s7sq16o.apps.googleusercontent.com",
         iosClientId: "860354187714-hq6kblgtdjv40sqocj2t8dav4kqkpo2s.apps.googleusercontent.com",
@@ -28,13 +28,13 @@ export function GoogleSignInButton(props: Props) {
     const { location: { latitude, longitude } } = props;
 
     useEffect(() => {
-        if (response?.type === 'success') {
-            if (response.params) {
-                const { access_token } = response.params;
+        if (response?.type === 'success' && response?.authentication) {
+            if (response.authentication) {
+                const { accessToken } = response.authentication;
                 loginWithBackend('google', {
                     longitude,
                     latitude,
-                    googleAccessToken: access_token,
+                    googleAccessToken: accessToken,
                 });
             }
         }
