@@ -6,8 +6,7 @@ import { SheetProvider } from 'react-native-actions-sheet';
 
 import { linking } from './linking';
 import { AuthStackNavigator, AuthScreensParams } from './auth/AuthStackNavigator';
-import { AppTabsNavigator } from './app/main/AppTabsNavigator';
-import { useAuth } from '../contexts/auth';
+import { useAuthContext } from '../contexts/auth';
 import { AppStackNavigator, AppStackScreensParams } from './app/AppStackNavigator';
 
 
@@ -43,7 +42,7 @@ export default function Navigation() {
 const RootStack = createStackNavigator<RootStackParamList>();
 
 function RootStackNavigator() {
-  const { userId } = useAuth();
+  const { userId } = useAuthContext();
 
   function mapToNavigator() {
     if (!userId) return <RootStack.Screen options={{ headerShown: false }} name="Auth" component={AuthStackNavigator} />;
