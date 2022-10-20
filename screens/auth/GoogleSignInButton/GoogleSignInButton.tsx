@@ -28,13 +28,13 @@ export function GoogleSignInButton(props: Props) {
     const { location: { latitude, longitude } } = props;
 
     useEffect(() => {
-        if (response?.type === 'success' && response.authentication) {
-            if (response.authentication) {
-                const { accessToken } = response.authentication;
+        if (response?.type === 'success') {
+            if (response.params) {
+                const { access_token } = response.params;
                 loginWithBackend('google', {
                     longitude,
                     latitude,
-                    googleAccessToken: accessToken,
+                    googleAccessToken: access_token,
                 });
             }
         }
