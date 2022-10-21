@@ -42,7 +42,7 @@ export function AvatarScreen() {
                 });
                 navigation.navigate('App', {
                     screen: 'OnboardingWizard', params: {
-                        screen: 'Loading'
+                        screen: 'OnboardingLoading'
                     }
                 });
             }}

@@ -17,13 +17,13 @@
       },
       "env": {
         "API_URL": "https://matching-app.up.railway.app",
-        "SOCKET_URL": "ws://matching-app.up.railway.app"
+        "SOCKET_URL": "wss://matching-app.up.railway.app"
       }
     },
     "production": {
       "env": {
         "API_URL": "https://matching-app.up.railway.app",
-        "SOCKET_URL": "ws://matching-app.up.railway.app"
+        "SOCKET_URL": "wss://matching-app.up.railway.app"
       }
     }
   },
