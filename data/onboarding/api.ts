@@ -4,7 +4,7 @@ import { ApiResponse } from "../types";
 
 export type OnboardingStatus = 'INITIAL' | 'IN_PROGRESS' | 'COMPLETED';
 
-type OnboardingStatusResponse = ApiResponse<{ status: OnboardingStatus }>;
+export type OnboardingStatusResponse = ApiResponse<{ status: OnboardingStatus }>;
 
 export async function getOnboardingStatus() {
     const url = '/onboarding';

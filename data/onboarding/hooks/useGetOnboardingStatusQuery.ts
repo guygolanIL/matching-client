@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getOnboardingStatus } from "../api";
+import { QueryError } from "../../types";
+
+import { getOnboardingStatus, OnboardingStatusResponse } from "../api";
 
 export const getOnboardingStatusQueryKey = 'onboarding-status';
 export function useGetOnboardingStatusQuery() {
-    return useQuery([getOnboardingStatusQueryKey], getOnboardingStatus);
+    return useQuery<OnboardingStatusResponse['result'], QueryError>([getOnboardingStatusQueryKey], getOnboardingStatus);
 }

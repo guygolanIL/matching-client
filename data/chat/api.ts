@@ -2,7 +2,7 @@ import { PublicProfileInfo } from "../feed/api";
 import { httpClient } from "../http-client";
 import { ApiResponse } from "../types";
 
-type MatchInfo = {
+export type MatchInfo = {
     id: number;
     matchedWith: PublicProfileInfo;
 };

@@ -8,6 +8,7 @@ import { linking } from './linking';
 import { AuthStackNavigator, AuthScreensParams } from './auth/AuthStackNavigator';
 import { useAuthContext } from '../contexts/auth';
 import { AppStackNavigator, AppStackScreensParams } from './app/AppStackNavigator';
+import { SocketProvider } from '../contexts/socket';
 
 
 declare global {
@@ -24,7 +25,7 @@ export type RootStackParamList = {
 
 export default function Navigation() {
   const navigationRef = useNavigationContainerRef();
-
+  const userId = useAuthContext().userId;
   useReduxDevToolsExtension(navigationRef);
 
   return (
@@ -33,7 +34,9 @@ export default function Navigation() {
       linking={linking}
     >
       <SheetProvider>
-        <RootStackNavigator />
+        <SocketProvider userId={userId}>
+          <RootStackNavigator />
+        </SocketProvider>
       </SheetProvider>
     </NavigationContainer>
   );

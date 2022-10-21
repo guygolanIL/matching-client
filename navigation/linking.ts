@@ -34,6 +34,7 @@ export const linking: LinkingOptions<RootStackParamList> = {
             }
           },
           Loading: 'loading',
+          Error: 'error',
           OnboardingWizard: {
             screens: {
               Name: 'name',

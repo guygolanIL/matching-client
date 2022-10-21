@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 
 export type ApiResponse<T extends object> = {
     result: T
@@ -9,6 +10,8 @@ export type ApiErrorResponse = {
         message: string;
     }>;
 }
+
+export type QueryError = AxiosError<ApiErrorResponse>;
 
 export type UserInfo = {
     id: number;

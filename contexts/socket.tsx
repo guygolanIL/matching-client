@@ -2,6 +2,7 @@ import React, { PropsWithChildren, useState, useEffect, useContext } from 'react
 import Constants from "expo-constants";
 import { io, Socket } from "socket.io-client";
 import { useAppState } from '../hooks/useAppState';
+import { MatchInfo } from '../data/chat/api';
 
 const socketUrl = Constants.expoConfig?.extra?.socketUrl;
 
@@ -11,6 +12,7 @@ type ClientToServerEvents = {
 
 type ServerToClientEvents = {
     messagesUpdated: () => void;
+    matchCreated: (match: MatchInfo) => void;
 };
 type ServerEvent = keyof ServerToClientEvents;
 
@@ -78,29 +80,28 @@ export function SocketProvider(props: PropsWithChildren<{
     );
 }
 
-export function useSocketContext(options?: ServerToClientEvents): ISocketContext {
+export function useSocketContext(options?: Partial<ServerToClientEvents>): ISocketContext {
     const context = useContext(SocketContext);
 
     useEffect(() => {
         if (options) {
-            iterateEvents(options, (eventName, handler) => {
-                context.socket?.on(eventName, handler);
+            Object.entries(options).forEach(([eventName, handler]) => {
+                if (!context.socket) {
+                    console.warn(`tried to listen to event <${eventName}> when socket is still uninitialized`);
+                }
+                context.socket?.on(eventName as ServerEvent, handler);
             });
         }
 
         return () => {
             if (options) {
-                iterateEvents(options, (eventName, handler) => {
-                    context.socket?.off(eventName, handler);
+                Object.entries(options).forEach(([eventName, handler]) => {
+                    context.socket?.off(eventName as ServerEvent, handler);
                 });
             }
-        }
-    }, []);
+        };
+    }, [context, options]);
 
 
     return context;
-}
-
-function iterateEvents<T extends ServerToClientEvents>(events: T, cb: (eventName: ServerEvent, handler: T[ServerEvent]) => void) {
-    Object.entries(events).forEach(([eventName, handler]) => cb(eventName as ServerEvent, handler));
 }

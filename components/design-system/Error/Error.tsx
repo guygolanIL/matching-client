@@ -1,6 +1,5 @@
 import React, { ReactElement } from "react";
 import { View, Text } from 'react-native';
-import { managePanProps } from "react-native-gesture-handler/lib/typescript/handlers/PanGestureHandler";
 
 import * as Styling from '../style';
 
@@ -14,7 +13,6 @@ const useStyles = Styling.createStyles((theme) => ({
         justifyContent: 'center'
     }
 }));
-
 
 export function Error({ message }: ErrorProps) {
     const styles = useStyles();
