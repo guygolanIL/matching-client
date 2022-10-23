@@ -6,7 +6,7 @@ import { UserClassifier } from './UserClassifier/UserClassifier';
 import { Spinner } from '../../components/design-system/Spinner/Spinner';
 import { useClassifyMutation } from '../../data/feed/hooks/useClassifyMutation';
 import { useQueryClient } from '@tanstack/react-query';
-import { GetMatchesQueryKey } from '../../data/chat/hooks/useGetMatchesQuery';
+import { getMatchesQueryKey } from '../../data/chat/hooks/useGetMatchesQuery';
 import { useSheetManager } from '../../hooks/useSheetManager';
 
 const useStyles = Styling.createStyles(() => ({
@@ -24,7 +24,7 @@ export function FeedScreen() {
     const { mutate } = useClassifyMutation({
         onSuccess({ matchedUserId }) {
             if (matchedUserId) {
-                queryClient.refetchQueries([GetMatchesQueryKey]);
+                queryClient.refetchQueries([getMatchesQueryKey]);
                 sheets.show('new-matching', { matchedUserId });
             }
         },

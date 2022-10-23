@@ -4,14 +4,17 @@ import ProfileIcon from '@expo/vector-icons/AntDesign';
 import ChatIcon from '@expo/vector-icons/Ionicons';
 import CogIcon from '@expo/vector-icons/Feather';
 import { NavigatorScreenParams } from '@react-navigation/native';
-import { Alert } from 'react-native';
+import { useEffect } from 'react';
 
 import * as Styling from '../../../components/design-system/style';
 import { ProfileScreen } from '../../../screens/profile/ProfileScreen';
 import { SettingsScreen } from '../../../screens/settings/SettingsScreen';
 import { FeedScreen } from '../../../screens/feed/FeedScreen';
 import { ChatStackNavigator, ChatsScreensParams } from './chat/ChatStackNavigator';
-import { useSocketContext } from '../../../contexts/socket';
+import { useSocketContext } from '../../../contexts/socket/socket';
+import { useSheetManager } from '../../../hooks/useSheetManager';
+import { useQueryClient } from '@tanstack/react-query';
+import { getMatchesQueryKey } from '../../../data/chat/hooks/useGetMatchesQuery';
 
 export type AppTabsScreensParams = {
     Feed: undefined;
@@ -25,18 +28,24 @@ export type AppScreenProps<Screen extends keyof AppTabsScreensParams> = BottomTa
 
 export function AppTabsNavigator() {
     const theme = Styling.useTheme();
+    const sheets = useSheetManager();
+    const queryClient = useQueryClient();
+    const socketContext = useSocketContext();
 
-    useSocketContext({
-        matchCreated(match: any) {
-            console.log(match);
-            Alert.alert('new match', `${match.id}`);
-        },
-    });
+    useEffect(() => {
+        const subscription = socketContext.subscribe('matchCreated', (match) => {
+            queryClient.refetchQueries([getMatchesQueryKey]);
+            sheets.show('new-matching', {
+                matchedUserId: match.matchedWith.userId,
+            });
+        });
+        return () => subscription.unsubscribe();
+    }, []);
 
     return (
         <AppBottomTabs.Navigator
             id='main'
-            initialRouteName='Profile'
+            initialRouteName='Feed'
             backBehavior='history'
             screenOptions={{
                 headerStyle: {

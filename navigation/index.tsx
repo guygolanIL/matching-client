@@ -8,7 +8,8 @@ import { linking } from './linking';
 import { AuthStackNavigator, AuthScreensParams } from './auth/AuthStackNavigator';
 import { useAuthContext } from '../contexts/auth';
 import { AppStackNavigator, AppStackScreensParams } from './app/AppStackNavigator';
-import { SocketProvider } from '../contexts/socket';
+import { SocketProvider } from '../contexts/socket/socket';
+import { SocketDevTools } from '../contexts/socket/SocketDevTools';
 
 
 declare global {
@@ -33,11 +34,12 @@ export default function Navigation() {
       ref={navigationRef}
       linking={linking}
     >
-      <SheetProvider>
-        <SocketProvider userId={userId}>
+      <SocketProvider userId={userId}>
+        <SheetProvider>
           <RootStackNavigator />
-        </SocketProvider>
-      </SheetProvider>
+        </SheetProvider>
+        <SocketDevTools />
+      </SocketProvider>
     </NavigationContainer>
   );
 }

@@ -1,6 +1,7 @@
+import { useEffect } from 'react';
 
 import { useAuthContext } from '../../contexts/auth';
-import { useSocketContext } from '../../contexts/socket';
+import { useSocketContext } from '../../contexts/socket/socket';
 import { useCreateMessageMutation } from '../../data/chat/hooks/useCreateMessageMutation';
 import { useGetMessagesQuery } from '../../data/chat/hooks/useGetMessagesQuery';
 import { byDate } from '../../util/sort';
@@ -10,11 +11,15 @@ export function useChat(matchId: number) {
     const { mutate } = useCreateMessageMutation(userId!);
     const { data, refetch } = useGetMessagesQuery(matchId);
 
-    const { isConnected } = useSocketContext({
-        messagesUpdated() {
+    const socketContext = useSocketContext();
+
+    useEffect(() => {
+        const subscription = socketContext.subscribe('messagesUpdated', () => {
             refetch();
-        },
-    });
+        });
+
+        return () => subscription.unsubscribe();
+    }, []);
 
     function sendMessage(content: string) {
         mutate({
@@ -28,7 +33,6 @@ export function useChat(matchId: number) {
     const sortedMessages = data?.sort(byDate('desc', message => new Date(message.createdAt)));
 
     return {
-        isConnected,
         messages: sortedMessages,
         sendMessage
     }

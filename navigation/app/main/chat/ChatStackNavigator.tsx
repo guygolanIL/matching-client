@@ -1,4 +1,5 @@
 import { createStackNavigator, StackScreenProps } from '@react-navigation/stack';
+import React from 'react';
 
 import { Avatar } from '../../../../components/design-system/Avatar/Avatar';
 import { useTheme } from '../../../../components/design-system/style';
