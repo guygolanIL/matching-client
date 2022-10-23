@@ -1,9 +1,11 @@
-import { createStackNavigator } from "@react-navigation/stack";
-import { Spinner } from "../../../components/design-system/Spinner/Spinner";
+import { createStackNavigator, StackScreenProps } from "@react-navigation/stack";
 
+import { Spinner } from "../../../components/design-system/Spinner/Spinner";
 import { AvatarScreen } from "../../../screens/onboarding/AvatarScreen";
 import { NameScreen } from "../../../screens/onboarding/NameScreen";
 
+
+export type OnboardingScreenProps<T extends keyof OnboardingStackScreensParams> = StackScreenProps<OnboardingStackScreensParams, T, 'onboarding'>;
 export type OnboardingStackScreensParams = {
     Name: undefined;
     Avatar: undefined;

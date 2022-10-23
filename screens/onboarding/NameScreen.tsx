@@ -1,18 +1,18 @@
-import { useNavigation } from '@react-navigation/native';
-import React from 'react';
 
+import { useNavigation } from '@react-navigation/native';
 import { Spinner } from '../../components/design-system/Spinner/Spinner';
 import { useUpdateOnboardingStatusMutation } from '../../data/onboarding/hooks/useUpdateOnboardingStatusMutation';
 import { UpdatePrivateUserProfileRequestBody } from '../../data/profile/api';
 import { useGetPrivateUserProfileQuery } from '../../data/profile/hooks/useGetPrivateUserProfileQuery';
 import { useFormValues } from '../../hooks/useFormValues';
+import { OnboardingScreenProps } from '../../navigation/app/onboarding/OnboardingStackNavigator';
 import { OnboardingScreenLayout } from "./OnboardingScreenLayout";
 
 
-export function NameScreen() {
+export function NameScreen(props: OnboardingScreenProps<'Name'>) {
     const { data, isLoading } = useGetPrivateUserProfileQuery();
-    const { mutate } = useUpdateOnboardingStatusMutation();
     const navigation = useNavigation();
+    const { mutate } = useUpdateOnboardingStatusMutation();
     const formValues = useFormValues<UpdatePrivateUserProfileRequestBody>({
         name: data?.name || ''
     });
@@ -23,6 +23,7 @@ export function NameScreen() {
 
     return (
         <OnboardingScreenLayout
+            progress={0 / 2}
             nextDisabled={isNextDisabled}
             onNext={() => {
                 mutate({
@@ -32,7 +33,7 @@ export function NameScreen() {
                 });
                 navigation.navigate('App', {
                     screen: 'OnboardingWizard', params: {
-                        screen: 'Avatar'
+                        screen: 'Avatar',
                     }
                 });
             }}

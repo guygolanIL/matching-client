@@ -30,17 +30,16 @@ export function AppTabsNavigator() {
     const theme = Styling.useTheme();
     const sheets = useSheetManager();
     const queryClient = useQueryClient();
-    const socketContext = useSocketContext();
+    const [, {
+        useOnMatchCreated
+    }] = useSocketContext();
 
-    useEffect(() => {
-        const subscription = socketContext.subscribe('matchCreated', (match) => {
-            queryClient.refetchQueries([getMatchesQueryKey]);
-            sheets.show('new-matching', {
-                matchedUserId: match.matchedWith.userId,
-            });
+    useOnMatchCreated((match) => {
+        queryClient.refetchQueries([getMatchesQueryKey]);
+        sheets.show('new-matching', {
+            matchedUserId: match.matchedWith.userId,
         });
-        return () => subscription.unsubscribe();
-    }, []);
+    });
 
     return (
         <AppBottomTabs.Navigator

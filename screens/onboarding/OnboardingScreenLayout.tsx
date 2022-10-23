@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TextInput as _NativeInput, TextInputProps } from 'react-native';
 import Icons from '@expo/vector-icons/MaterialIcons';
 
@@ -6,8 +6,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { IconButton } from '../../components/design-system/IconButton/IconButton';
 import * as Styling from '../../components/design-system/style';
 import { Fab } from '../../components/design-system/Fab/Fab';
+import { WizardProgress } from '../../components/design-system/WizardProgress/WizardProgress';
 
 export type OnboardingScreenLayoutProps = React.PropsWithChildren<{
+    progress: number;
     onNext?: () => void;
     onPrevious?: () => void;
     nextDisabled: boolean;
@@ -20,9 +22,11 @@ export function OnboardingScreenLayout(props: OnboardingScreenLayoutProps) {
                 flex: 1,
                 backgroundColor: theme.palette.primary.main,
                 paddingHorizontal: 10,
-                paddingVertical: 20,
+                paddingVertical: 30,
+                alignItems: 'center',
             }}
         >
+            <WizardProgress progress={props.progress} />
             <View
                 style={{
                     flex: 1,
@@ -58,7 +62,7 @@ const useSectionHeaderStyles = Styling.createStyles(({ theme }) => ({
     text: {
         fontSize: theme.typography.header.fontSize,
         fontWeight: theme.typography.header.fontWeight,
-        marginBottom: 30,
+        marginBottom: 50,
         color: 'white',
     },
 }));

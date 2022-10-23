@@ -26,6 +26,7 @@ export function AvatarScreen() {
 
     return (
         <OnboardingScreenLayout
+            progress={1 / 2}
             onPrevious={() => navigation.navigate('App', {
                 screen: 'OnboardingWizard', params: {
                     screen: 'Name'

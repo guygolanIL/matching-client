@@ -108,7 +108,22 @@ export function SocketProvider(props: PropsWithChildren<{
 }
 
 
+type Hooks = {
+    [Key in ServerEvent as `useOn${Capitalize<Key>}`]: EventHook<Key>;
+};
+type EventHook<Event extends ServerEvent> = (handler: ServerToClientEvents[Event]) => void;
+function createEventEffectHook(context: ISocketContext, event: ServerEvent): EventHook<ServerEvent> {
+    return (handler) => {
+        const subscription = context.subscribe(event, handler);
+        return () => subscription.unsubscribe();
+    };
+}
 
-export function useSocketContext(): ISocketContext {
-    return useContext(SocketContext);
+export function useSocketContext(): [ISocketContext, Hooks] {
+    const context = useContext(SocketContext);
+
+    return [context, {
+        useOnMatchCreated: createEventEffectHook(context, 'matchCreated'),
+        useOnMessagesUpdated: createEventEffectHook(context, 'messagesUpdated'),
+    }];
 }

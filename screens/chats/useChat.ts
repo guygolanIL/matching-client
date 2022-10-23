@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { useAuthContext } from '../../contexts/auth';
 import { useSocketContext } from '../../contexts/socket/socket';
 import { useCreateMessageMutation } from '../../data/chat/hooks/useCreateMessageMutation';
@@ -11,15 +9,13 @@ export function useChat(matchId: number) {
     const { mutate } = useCreateMessageMutation(userId!);
     const { data, refetch } = useGetMessagesQuery(matchId);
 
-    const socketContext = useSocketContext();
+    const [, {
+        useOnMessagesUpdated
+    }] = useSocketContext();
 
-    useEffect(() => {
-        const subscription = socketContext.subscribe('messagesUpdated', () => {
-            refetch();
-        });
-
-        return () => subscription.unsubscribe();
-    }, []);
+    useOnMessagesUpdated(() => {
+        refetch();
+    });
 
     function sendMessage(content: string) {
         mutate({

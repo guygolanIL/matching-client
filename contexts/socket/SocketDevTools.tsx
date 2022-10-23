@@ -21,7 +21,7 @@ const socketImageUri = Image.resolveAssetSource(socketImageSource).uri
  * 
  */
 export function SocketDevTools() {
-    const socketContext = useSocketContext();
+    const [socketContext] = useSocketContext();
     const shouldShow = process.env.NODE_ENV === 'development';
     const { panResponder, pan } = useDrag();
 
