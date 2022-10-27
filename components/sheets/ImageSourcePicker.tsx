@@ -24,7 +24,6 @@ export function ImageSourcePicker(props: SheetProps) {
             containerStyle={{
                 backgroundColor: 'transparent',
                 elevation: 0,
-                height: '14%'
             }}
         >
             <View style={styles.buttonsContainer}>
